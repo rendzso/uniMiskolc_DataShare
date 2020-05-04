@@ -4,6 +4,11 @@ abstract class SessionHandlerState extends Equatable {
   const SessionHandlerState();
 }
 
+class Empty extends SessionHandlerState {
+  @override
+  List<Object> get props => [];
+}
+
 class LogInPage extends SessionHandlerState {
   @override
   List<Object> get props => [];
@@ -16,9 +21,9 @@ class Loading extends SessionHandlerState {
   List<Object> get props => null;
 }
 
-class Ready extends SessionHandlerState {
+class LoggedIn extends SessionHandlerState {
   final FirebaseUser user;
-  const Ready({@required this.user});
+  const LoggedIn({@required this.user});
 
   @override
   List<Object> get props => [user];

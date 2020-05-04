@@ -18,28 +18,33 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
     @required String email,
     @required String password,
   }) async {
-    final oldUser = await auth.currentUser();
-    if (oldUser == null) {
-      try {
-        final FirebaseUser user = (await auth.signInWithEmailAndPassword(
-                email: email, password: password))
-            .user;
-        return user;
-      } on PlatformException {
-        throw LoginException();
-      }
-    } else {
-      return oldUser;
+    try {
+      final FirebaseUser user = (await auth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+      return user;
+    } on PlatformException {
+      throw LoginException();
     }
   }
 
   @override
   Future<bool> logout() async {
-    try{
-    await auth.signOut();
-    return true;
+    try {
+      await auth.signOut();
+      return true;
     } on PlatformException {
       throw LogoutException();
+    }
+  }
+
+  @override
+  Future<FirebaseUser> checkIfLoggedIn() async {
+    final oldUser = await auth.currentUser();
+    if (oldUser == null) {
+      throw LoginException();
+    } else {
+      return oldUser;
     }
   }
 }

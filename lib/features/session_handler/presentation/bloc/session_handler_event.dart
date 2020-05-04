@@ -17,3 +17,7 @@ class LogOut extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+class CheckIfLoggedIn extends SessionHandlerEvent {
+  @override
+  List<Object> get props => null;
+}

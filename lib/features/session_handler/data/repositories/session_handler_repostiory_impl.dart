@@ -47,4 +47,18 @@ class SessionHandlerRepositoryImplementation
       return Left(InternetException());
     }
   }
+
+  @override
+  Future<Either<Exception, FirebaseUser>> checkIfLoggedIn() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final answer = await remoteDataSource.checkIfLoggedIn();
+        return Right(answer);
+      } on LoginException {
+        return Left(LoginException());
+      }
+    } else {
+      return Left(LoginException());
+    }
+  }
 }
