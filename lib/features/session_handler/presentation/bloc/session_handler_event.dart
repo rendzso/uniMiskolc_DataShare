@@ -12,3 +12,8 @@ class LogIn extends SessionHandlerEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class LogOut extends SessionHandlerEvent {
+  @override
+  List<Object> get props => null;
+}

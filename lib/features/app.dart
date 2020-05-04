@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/core/injector/injector.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource_impl.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/login_form.dart';
 
 import 'session_handler/presentation/bloc/session_handler_bloc.dart';
 
@@ -10,9 +11,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: MyHomePage(title: 'UniMiskolc DataShare'),
     );
@@ -39,19 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
           create: (_) => injector<SessionHandlerBloc>(),
           child: BlocBuilder<SessionHandlerBloc, SessionHandlerState>(
               builder: (context, state) {
-            if (state is Empty) {
-              return RaisedButton(
-                  child: Text('login'),
-                  onPressed: () {
-                    BlocProvider.of<SessionHandlerBloc>(context).add(
-                        LogIn(email: 'test@test.com', password: 'testtest'));
-                  });
+            if (state is LogInPage) {
+              return LoginForm();
             } else if (state is Loading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             } else if (state is Ready) {
-              return Text(state.user.uid);
+              return RaisedButton(child: Text('LogOut') ,onPressed: () {
+                BlocProvider.of<SessionHandlerBloc>(context).add(LogOut());
+              });
             } else if (state is Error) {
               return Text(state.message);
             }

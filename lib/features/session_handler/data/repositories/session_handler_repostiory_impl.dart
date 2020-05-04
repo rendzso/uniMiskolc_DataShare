@@ -17,7 +17,8 @@ class SessionHandlerRepositoryImplementation
   });
 
   @override
-  Future<Either<Exception, FirebaseUser>> login({String email, String password}) async {
+  Future<Either<Exception, FirebaseUser>> login(
+      {String email, String password}) async {
     if (await networkInfo.isConnected) {
       try {
         final FirebaseUser answer = await remoteDataSource.login(
@@ -34,8 +35,16 @@ class SessionHandlerRepositoryImplementation
   }
 
   @override
-  Future<Either<Exception, bool>> logout() {
-    // TODO: implement logout
-    return null;
+  Future<Either<Exception, bool>> logout() async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.logout();
+        return Right(true);
+      } on LogoutException {
+        return Left(LogoutException());
+      }
+    } else {
+      return Left(InternetException());
+    }
   }
 }

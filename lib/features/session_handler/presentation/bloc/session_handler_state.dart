@@ -4,7 +4,7 @@ abstract class SessionHandlerState extends Equatable {
   const SessionHandlerState();
 }
 
-class Empty extends SessionHandlerState {
+class LogInPage extends SessionHandlerState {
   @override
   List<Object> get props => [];
 }
