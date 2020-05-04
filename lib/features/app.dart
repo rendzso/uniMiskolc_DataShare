@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/core/injector/injector.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/login_form.dart';
 
+import 'main_activity/presentation/pages/main.dart';
 import 'session_handler/presentation/bloc/session_handler_bloc.dart';
 import 'session_handler/presentation/pages/signup_form.dart';
 
@@ -51,11 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is LoggedIn) {
-              return RaisedButton(
-                  child: Text('LogOut'),
-                  onPressed: () {
-                    BlocProvider.of<SessionHandlerBloc>(context).add(LogOut());
-                  });
+              return Main();
             } else if (state is Error) {
               return Text(state.message);
             } else if (state is SignUpPage) {
