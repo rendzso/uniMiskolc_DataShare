@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract class RemoteDataSource {
-  Future<bool> login({String email, String password});
+  Future<FirebaseUser> login({String email, String password});
   Future<bool> logout();
 }

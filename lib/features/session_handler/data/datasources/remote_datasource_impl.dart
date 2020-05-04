@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:uni_miskolc_datashare/core/errors/exceptions.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource.dart';
 
@@ -9,12 +10,17 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
 
   RemoteDataSourceImplementation({@required this.secureStore, @required this.auth}); */
   @override
-  Future<bool> login({String email, String password}) async {
+  Future<FirebaseUser> login({
+    @required String email,
+    @required String password,
+  }) async {
     try {
-      final FirebaseUser user =
-          (await auth.signInWithEmailAndPassword(email: email, password: password)).user;
-      return true;
-    } on AuthException {
+      final FirebaseUser user = (await auth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+      print(user);
+      return user;
+    } on PlatformException {
       throw LoginException();
     }
   }

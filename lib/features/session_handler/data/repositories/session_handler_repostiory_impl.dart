@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uni_miskolc_datashare/core/errors/exceptions.dart';
 import 'package:uni_miskolc_datashare/core/network/network_info.dart';
@@ -16,10 +17,10 @@ class SessionHandlerRepositoryImplementation
   });
 
   @override
-  Future<Either<Exception, bool>> login({String email, String password}) async {
+  Future<Either<Exception, FirebaseUser>> login({String email, String password}) async {
     if (await networkInfo.isConnected) {
       try {
-        final answer = await remoteDataSource.login(
+        final FirebaseUser answer = await remoteDataSource.login(
           email: email,
           password: password,
         );

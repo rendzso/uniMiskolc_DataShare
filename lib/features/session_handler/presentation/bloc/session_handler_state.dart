@@ -9,21 +9,22 @@ class Empty extends SessionHandlerState {
   List<Object> get props => [];
 }
 
-class Loading extends SessionHandlerState{
+class Loading extends SessionHandlerState {
   const Loading();
-
-  @override
-  List<Object> get props => null; 
-}
-
-class Ready extends SessionHandlerState{
-  const Ready();
 
   @override
   List<Object> get props => null;
 }
 
-class Error extends SessionHandlerState{
+class Ready extends SessionHandlerState {
+  final FirebaseUser user;
+  const Ready({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class Error extends SessionHandlerState {
   final String message;
   const Error({@required this.message});
 

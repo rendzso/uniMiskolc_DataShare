@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is Ready) {
-              return Text('logged in');
+              return Text(state.user.uid);
             } else if (state is Error) {
               return Text(state.message);
             }
