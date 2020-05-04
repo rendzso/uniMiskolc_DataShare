@@ -47,4 +47,20 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
       return oldUser;
     }
   }
+
+  @override
+  Future<FirebaseUser> signUp({
+    @required String email,
+    @required String password,
+  }) async {
+    try {
+      final FirebaseUser newUser = (await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      )).user;
+      return newUser;
+    } on PlatformException {
+      throw SignUpException();
+    }
+  }
 }

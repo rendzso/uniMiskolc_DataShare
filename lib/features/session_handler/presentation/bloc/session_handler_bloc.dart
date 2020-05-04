@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/check_if_logged_in.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
 
 part 'session_handler_event.dart';
 part 'session_handler_state.dart';
@@ -16,11 +17,15 @@ class SessionHandlerBloc
   final LoginUseCase loginUseCase;
   final LogoutUseCase logoutUseCase;
   final CheckIfLoggedInUseCase checkIfLoggedInUseCase;
+  final SignUpUseCase signUpUseCase;
 
-  SessionHandlerBloc(
-      {@required this.loginUseCase,
-      @required this.logoutUseCase,
-      @required this.checkIfLoggedInUseCase});
+  SessionHandlerBloc({
+    @required this.loginUseCase,
+    @required this.logoutUseCase,
+    @required this.checkIfLoggedInUseCase,
+    @required this.signUpUseCase,
+  });
+
   @override
   SessionHandlerState get initialState => Empty();
 
@@ -46,6 +51,18 @@ class SessionHandlerBloc
       final loggedInOrEception = await checkIfLoggedInUseCase();
       yield loggedInOrEception.fold(
           (no) => LogInPage(), (user) => LoggedIn(user: user));
+    } else if (event is OpenSignUpPage) {
+      yield SignUpPage();
+    } else if (event is OpenLogInPage) {
+      yield LogInPage();
+    } else if (event is SignUp) {
+      yield Loading();
+      final signedUpOrException =
+          await signUpUseCase(email: event.email, password: event.password);
+      yield signedUpOrException.fold(
+        (error) => Error(message: 'Cant signUp'),
+        (newUser) => LoggedIn(user: newUser),
+      );
     }
   }
 }

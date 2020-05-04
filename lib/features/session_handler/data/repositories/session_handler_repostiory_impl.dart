@@ -61,4 +61,20 @@ class SessionHandlerRepositoryImplementation
       return Left(LoginException());
     }
   }
+
+  @override
+  Future<Either<Exception, FirebaseUser>> signUp(
+      {String email, String password}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final answer =
+            await remoteDataSource.signUp(email: email, password: password);
+        return Right(answer);
+      } on SignUpException {
+        return Left(SignUpException());
+      }
+    } else {
+      return Left(InternetException());
+    }
+  }
 }

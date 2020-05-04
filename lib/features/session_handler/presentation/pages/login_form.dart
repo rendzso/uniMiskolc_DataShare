@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uni_miskolc_datashare/core/widgets/custom_input_field.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
 class LoginForm extends StatefulWidget {
@@ -50,60 +51,40 @@ class _LoginFormState extends State<LoginForm> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('LogIn'),
+                Text(
+                  'LogIn Page',
+                  style: TextStyle(fontSize: 30.0),
+                ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: 300,
-              child: TextFormField(
-                controller: myEmailChangeController,
-                decoration: new InputDecoration(
-                  hintText: 'Email address',
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(6),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
+          CustomInputField(
+            textHint: 'Email address',
+            myController: myEmailChangeController,
+            isPassword: false,
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              width: 300,
-              child: TextFormField(
-                controller: myPasswordChangeController,
-                obscureText: true,
-                decoration: new InputDecoration(
-                  hintText: 'Password',
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(6),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-            ),
+          CustomInputField(
+            textHint: 'Password',
+            myController: myPasswordChangeController,
+            isPassword: true,
           ),
+          RaisedButton(
+              child: Text('Log In'),
+              onPressed: () {
+                BlocProvider.of<SessionHandlerBloc>(context).add(LogIn(
+                  email: 'test@test.com',
+                  password: 'testtest',
+                ));
+              }),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(top: 70),
             child: RaisedButton(
-                child: Text('Log In'),
+                child: Text('Sign up'),
                 onPressed: () {
-                  BlocProvider.of<SessionHandlerBloc>(context).add(LogIn(
-                    email: 'test@test.com',
-                    password: 'testtest',
-                  ));
+                  BlocProvider.of<SessionHandlerBloc>(context)
+                      .add(OpenSignUpPage());
                 }),
-          )
+          ),
         ],
       ),
     );

@@ -13,6 +13,7 @@ import 'package:uni_miskolc_datashare/features/session_handler/domain/repositori
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/check_if_logged_in.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
 final injector = GetIt.instance;
@@ -45,6 +46,7 @@ void registerSessionHandler() {
       loginUseCase: injector(),
       logoutUseCase: injector(),
       checkIfLoggedInUseCase: injector(),
+      signUpUseCase: injector(),
     ),
   );
 
@@ -52,6 +54,7 @@ void registerSessionHandler() {
   injector.registerLazySingleton(() => LogoutUseCase(repository: injector()));
   injector.registerLazySingleton(
       () => CheckIfLoggedInUseCase(repository: injector()));
+  injector.registerLazySingleton(() => SignUpUseCase(repository: injector()));
   injector.registerLazySingleton<SessionHandlerRepository>(
     () => SessionHandlerRepositoryImplementation(
       networkInfo: injector(),
