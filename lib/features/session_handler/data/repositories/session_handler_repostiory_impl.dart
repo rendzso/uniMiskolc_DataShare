@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -75,6 +77,21 @@ class SessionHandlerRepositoryImplementation
       }
     } else {
       return Left(InternetException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, bool>> waitingForEmailVerification() async {
+    if (await networkInfo.isConnected) {
+      try {
+        print('repositorie');
+        await remoteDataSource.waitingForEmailVerification();
+        return Right(true);
+      } on LoginException {
+        return Left(LoginException());
+      }
+    } else {
+      return Left(LoginException());
     }
   }
 }

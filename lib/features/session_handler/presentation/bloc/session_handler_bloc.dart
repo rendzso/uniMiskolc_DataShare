@@ -8,6 +8,7 @@ import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/c
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/waiting_for_email_verification.dart';
 
 part 'session_handler_event.dart';
 part 'session_handler_state.dart';
@@ -18,12 +19,14 @@ class SessionHandlerBloc
   final LogoutUseCase logoutUseCase;
   final CheckIfLoggedInUseCase checkIfLoggedInUseCase;
   final SignUpUseCase signUpUseCase;
+  final WaitingForEmailVerificationUseCase waitingForEmailVerificationUseCase;
 
   SessionHandlerBloc({
     @required this.loginUseCase,
     @required this.logoutUseCase,
     @required this.checkIfLoggedInUseCase,
     @required this.signUpUseCase,
+    @required this.waitingForEmailVerificationUseCase,
   });
 
   @override
@@ -56,7 +59,7 @@ class SessionHandlerBloc
     } else if (event is OpenLogInPage) {
       yield LogInPage();
     } else if (event is SignUp) {
-      yield Loading();
+      yield WaitingForEmailVerification();
       final signedUpOrException =
           await signUpUseCase(email: event.email, password: event.password);
       yield signedUpOrException.fold(

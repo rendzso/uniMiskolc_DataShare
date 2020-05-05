@@ -15,6 +15,7 @@ import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/c
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/waiting_for_email_verification.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
 final injector = GetIt.instance;
@@ -49,6 +50,7 @@ void registerSessionHandler() {
       logoutUseCase: injector(),
       checkIfLoggedInUseCase: injector(),
       signUpUseCase: injector(),
+      waitingForEmailVerificationUseCase: injector(),
     ),
   );
 
@@ -57,6 +59,7 @@ void registerSessionHandler() {
   injector.registerLazySingleton(
       () => CheckIfLoggedInUseCase(repository: injector()));
   injector.registerLazySingleton(() => SignUpUseCase(repository: injector()));
+  injector.registerLazySingleton(() => WaitingForEmailVerificationUseCase(repository: injector()));
   injector.registerLazySingleton<SessionHandlerRepository>(
     () => SessionHandlerRepositoryImplementation(
       networkInfo: injector(),

@@ -76,8 +76,8 @@ class _LoginFormState extends State<LoginForm> {
               child: Text('Log In'),
               onPressed: () {
                 BlocProvider.of<SessionHandlerBloc>(context).add(LogIn(
-                  email: 'test@test.com',
-                  password: 'testtest',
+                  email: email,
+                  password: password,
                 ));
               }),
           Padding(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +24,9 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
       final FirebaseUser user = (await auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
+      if (user.isEmailVerified == false) {
+        user.sendEmailVerification();
+      }
       return user;
     } on PlatformException {
       throw LoginException();
@@ -42,10 +47,23 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
   Future<FirebaseUser> checkIfLoggedIn() async {
     final oldUser = await auth.currentUser();
     if (oldUser == null) {
+      print('checkfrom datasource');
       throw LoginException();
     } else {
       return oldUser;
     }
+  }
+
+  Future<void> _waitingForEmailVerification({Completer completer}) async {
+    Timer.periodic(Duration(seconds: 3), (timer) async {
+      FirebaseUser user = await auth.currentUser();
+      user.reload();
+      print('reloaded!!!');
+      if (user.isEmailVerified == true) {
+        timer.cancel();
+        completer.complete(user);
+      }
+    });
   }
 
   @override
@@ -53,14 +71,25 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
     @required String email,
     @required String password,
   }) async {
+    Completer completer = new Completer();
     try {
       final FirebaseUser newUser = (await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      )).user;
-      return newUser;
+      ))
+          .user;
+      newUser.sendEmailVerification();
+      _waitingForEmailVerification(completer: completer);
+      return await completer.future;
     } on PlatformException {
       throw SignUpException();
     }
+  }
+
+  @override
+  Future<void> waitingForEmailVerification() async {
+    Completer completer = new Completer();
+    _waitingForEmailVerification(completer: completer);
+    return await completer.future;
   }
 }

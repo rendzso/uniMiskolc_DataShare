@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/core/injector/injector.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/login_form.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/waiting_for_verification.dart';
 
 import 'main_activity/presentation/pages/main.dart';
 import 'session_handler/presentation/bloc/session_handler_bloc.dart';
@@ -58,6 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
               return Text(state.message);
             } else if (state is SignUpPage) {
               return SignUpForm();
+            } else if (state is WaitingForEmailVerification) {
+              return WaitingForEmailVerificationPage();
             }
           }),
         ));

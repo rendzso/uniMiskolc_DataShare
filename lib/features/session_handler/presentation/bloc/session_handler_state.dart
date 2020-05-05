@@ -19,8 +19,11 @@ class SignUpPage extends SessionHandlerState {
 }
 
 class Loading extends SessionHandlerState {
-  const Loading();
+  @override
+  List<Object> get props => null;
+}
 
+class WaitingForEmailVerification extends SessionHandlerState {
   @override
   List<Object> get props => null;
 }

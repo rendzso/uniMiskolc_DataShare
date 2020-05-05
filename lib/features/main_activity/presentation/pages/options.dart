@@ -31,14 +31,16 @@ class _OptionsPageState extends State<OptionsPage> {
             Text('Options page'),
             CustomInputField(
               textHint: 'Display name',
-              initialString: user.displayName == null ? 'N/A' : user.displayName,
+              initialString:
+                  user.displayName == null ? 'N/A' : user.displayName,
               isPassword: false,
               rowText: 'Display name:',
               onlyText: !isEditable,
             ),
             CustomInputField(
               textHint: 'Phone number',
-              initialString: user.phoneNumber == null ? 'N/A' : user.phoneNumber,
+              initialString:
+                  user.phoneNumber == null ? 'N/A' : user.phoneNumber,
               isPassword: false,
               rowText: 'Phone number:',
               onlyText: !isEditable,
@@ -50,14 +52,21 @@ class _OptionsPageState extends State<OptionsPage> {
               rowText: 'Email:',
               onlyText: !isEditable,
             ),
+            CustomInputField(
+              initialString: user.isEmailVerified.toString(),
+              isPassword: false,
+              rowText: 'Email verified:',
+              onlyText: true,
+            ),
             RaisedButton(
-                child: Text('Edit'),
-                onPressed: () {
-                  print(user);
-                  setState(() {
-                    isEditable = true;
-                  });
-                })
+              child: Text('Edit'),
+              onPressed: () {
+                print(user);
+                setState(() {
+                  isEditable = true;
+                });
+              },
+            ),
           ],
         ),
       ),
