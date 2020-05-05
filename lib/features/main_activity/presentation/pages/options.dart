@@ -12,8 +12,9 @@ class OptionsPage extends StatefulWidget {
 
 class _OptionsPageState extends State<OptionsPage> {
   FirebaseUser user;
+  bool isEditable = false;
 
-@override
+  @override
   void initState() {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
     super.initState();
@@ -29,11 +30,34 @@ class _OptionsPageState extends State<OptionsPage> {
           children: <Widget>[
             Text('Options page'),
             CustomInputField(
-              textHint: 'Email Address',
-              initialString: user.email,
+              textHint: 'Display name',
+              initialString: user.displayName == null ? 'N/A' : user.displayName,
+              isPassword: false,
+              rowText: 'Display name:',
+              onlyText: !isEditable,
+            ),
+            CustomInputField(
+              textHint: 'Phone number',
+              initialString: user.phoneNumber == null ? 'N/A' : user.phoneNumber,
+              isPassword: false,
+              rowText: 'Phone number:',
+              onlyText: !isEditable,
+            ),
+            CustomInputField(
+              textHint: 'Email address',
+              initialString: user.email == null ? 'N/A' : user.email,
               isPassword: false,
               rowText: 'Email:',
+              onlyText: !isEditable,
             ),
+            RaisedButton(
+                child: Text('Edit'),
+                onPressed: () {
+                  print(user);
+                  setState(() {
+                    isEditable = true;
+                  });
+                })
           ],
         ),
       ),

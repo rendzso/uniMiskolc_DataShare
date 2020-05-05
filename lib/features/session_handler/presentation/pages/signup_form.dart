@@ -64,12 +64,14 @@ class _SignUpFormState extends State<SignUpForm> {
               myController: myEmailChangeController,
               isPassword: false,
               rowText: 'Email:',
+              onlyText: false,
             ),
             CustomInputField(
               textHint: 'Password',
               myController: myPasswordChangeController,
               isPassword: true,
               rowText: 'Password:',
+              onlyText: false,
             ),
             RaisedButton(
               child: Text('Sign Up!'),

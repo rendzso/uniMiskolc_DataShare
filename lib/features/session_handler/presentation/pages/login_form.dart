@@ -63,12 +63,14 @@ class _LoginFormState extends State<LoginForm> {
             myController: myEmailChangeController,
             isPassword: false,
             rowText: 'Email:',
+            onlyText: false,
           ),
           CustomInputField(
             textHint: 'Password',
             myController: myPasswordChangeController,
             isPassword: true,
             rowText: 'Password:',
+            onlyText: false,
           ),
           RaisedButton(
               child: Text('Log In'),
