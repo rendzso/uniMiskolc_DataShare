@@ -4,7 +4,12 @@ abstract class MainActivityState extends Equatable {
   const MainActivityState();
 }
 
-class MainActivityInitial extends MainActivityState {
+class OptionsPageState extends MainActivityState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => null;
+}
+
+class WelcomePageState extends MainActivityState {
+  @override
+  List<Object> get props => null;
 }

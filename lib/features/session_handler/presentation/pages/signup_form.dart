@@ -63,11 +63,13 @@ class _SignUpFormState extends State<SignUpForm> {
               textHint: 'Email address',
               myController: myEmailChangeController,
               isPassword: false,
+              rowText: 'Email:',
             ),
             CustomInputField(
               textHint: 'Password',
               myController: myPasswordChangeController,
               isPassword: true,
+              rowText: 'Password:',
             ),
             RaisedButton(
               child: Text('Sign Up!'),

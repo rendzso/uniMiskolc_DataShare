@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:uni_miskolc_datashare/core/network/network_info.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store_impl.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource_impl.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/repositories/session_handler_repostiory_impl.dart';
@@ -21,6 +22,7 @@ final injector = GetIt.instance;
 void init() {
   registerCore();
   registerSessionHandler();
+  registerMainActivity();
 }
 
 void registerCore() {
@@ -64,5 +66,11 @@ void registerSessionHandler() {
   injector.registerLazySingleton<RemoteDataSource>(
     () => RemoteDataSourceImplementation(
         auth: injector(), secureStore: injector(), client: injector()),
+  );
+}
+
+void registerMainActivity() {
+  injector.registerFactory(
+    () => MainActivityBloc(),
   );
 }

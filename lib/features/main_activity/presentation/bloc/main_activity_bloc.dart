@@ -8,12 +8,16 @@ part 'main_activity_state.dart';
 
 class MainActivityBloc extends Bloc<MainActivityEvent, MainActivityState> {
   @override
-  MainActivityState get initialState => MainActivityInitial();
+  MainActivityState get initialState => WelcomePageState();
 
   @override
   Stream<MainActivityState> mapEventToState(
     MainActivityEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if(event is OpenOptionsPage) {
+      yield OptionsPageState();
+    } else if (event is OpenWelcomePage) {
+      yield WelcomePageState();
+    }
   }
 }
