@@ -47,7 +47,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
       );
     } else {
       return new TextFormField(
-        initialValue: widget.initialString,
         obscureText: widget.isPassword,
         controller: widget.myController,
         decoration: new InputDecoration(

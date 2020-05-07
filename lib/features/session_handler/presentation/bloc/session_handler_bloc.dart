@@ -82,12 +82,7 @@ class SessionHandlerBloc
         (newUser) => LoggedIn(user: newUser),
       );
     } else if (event is ResendVerificationEmail) {
-      yield Loading();
-      final resendedOrException = await resendVerificationEmailUseCase();
-      yield resendedOrException.fold(
-        (error) => Error(message: 'Cant resend email'),
-        (ok) => WaitingForEmailVerification(),
-      );
+      resendVerificationEmailUseCase();
     }
   }
 }

@@ -12,12 +12,34 @@ class OptionsPage extends StatefulWidget {
 
 class _OptionsPageState extends State<OptionsPage> {
   FirebaseUser user;
+  String newUserName;
+  String newPhoneNumber;
   bool isEditable = false;
+
+  final myUserNameChangeController = TextEditingController();
+  final myPhoneNumberChangeController = TextEditingController();
 
   @override
   void initState() {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
+    newUserName = user.displayName == null ? 'N/A' : user.displayName;
+    newPhoneNumber = user.phoneNumber == null ? 'N/A' : user.phoneNumber;
+    myUserNameChangeController.addListener(() {
+      newUserName = myUserNameChangeController.text;
+      checkIfDataChanged();
+    });
+    myPhoneNumberChangeController.addListener(() {
+      newPhoneNumber = myPhoneNumberChangeController.text;
+      checkIfDataChanged();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    myUserNameChangeController.dispose();
+    myPhoneNumberChangeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -30,6 +52,7 @@ class _OptionsPageState extends State<OptionsPage> {
           children: <Widget>[
             Text('Options page'),
             CustomInputField(
+              myController: myUserNameChangeController,
               textHint: 'Display name',
               initialString:
                   user.displayName == null ? 'N/A' : user.displayName,
@@ -38,6 +61,7 @@ class _OptionsPageState extends State<OptionsPage> {
               onlyText: !isEditable,
             ),
             CustomInputField(
+              myController: myPhoneNumberChangeController,
               textHint: 'Phone number',
               initialString:
                   user.phoneNumber == null ? 'N/A' : user.phoneNumber,
@@ -50,7 +74,7 @@ class _OptionsPageState extends State<OptionsPage> {
               initialString: user.email == null ? 'N/A' : user.email,
               isPassword: false,
               rowText: 'Email:',
-              onlyText: !isEditable,
+              onlyText: true,
             ),
             CustomInputField(
               initialString: user.isEmailVerified.toString(),
@@ -58,18 +82,58 @@ class _OptionsPageState extends State<OptionsPage> {
               rowText: 'Email verified:',
               onlyText: true,
             ),
-            RaisedButton(
-              child: Text('Edit'),
-              onPressed: () {
-                print(user);
-                setState(() {
-                  isEditable = true;
-                });
-              },
+            Visibility(
+              visible: isEditable,
+              child: RaisedButton(
+                child: Text('Resend email'),
+                onPressed: user.isEmailVerified == true
+                    ? null
+                    : () {
+                        BlocProvider.of<SessionHandlerBloc>(context)
+                            .add(ResendVerificationEmail());
+                      },
+              ),
+            ),
+            Visibility(
+              visible: isEditable,
+              child: RaisedButton(
+                child: Text('Save changes'),
+                onPressed: checkIfDataChanged()
+                    ? () {
+                        print(newUserName);
+                      }
+                    : null,
+              ),
+            ),
+            Visibility(
+              visible: !isEditable,
+              replacement: RaisedButton(
+                  child: Text('Back'),
+                  onPressed: () {
+                    setState(() {
+                      isEditable = false;
+                    });
+                  }),
+              child: RaisedButton(
+                child: Text('Edit'),
+                onPressed: () {
+                  print(user);
+                  setState(() {
+                    isEditable = true;
+                  });
+                },
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  checkIfDataChanged() {
+    if (user.displayName == newUserName || user.phoneNumber == newPhoneNumber) {
+      return false;
+    } else
+      return true;
   }
 }
