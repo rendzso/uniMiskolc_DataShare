@@ -21,4 +21,6 @@ abstract class RemoteDataSource {
   Future<void> waitingForEmailVerification();
 
   Future<bool> resendVerificationEmail();
+
+  Future<bool> updateUserData({String displayname, String phoneNumber});
 }

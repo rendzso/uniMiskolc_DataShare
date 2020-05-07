@@ -22,6 +22,15 @@ class SignUp extends SessionHandlerEvent {
   List<Object> get props => [email, password];
 }
 
+class UpdateUserProfile extends SessionHandlerEvent {
+  final String displayName;
+  final String phoneNumber;
+
+  UpdateUserProfile({@required this.displayName, @required this.phoneNumber});
+  @override
+  List<Object> get props => [displayName, phoneNumber];
+}
+
 class LogOut extends SessionHandlerEvent {
   @override
   List<Object> get props => null;

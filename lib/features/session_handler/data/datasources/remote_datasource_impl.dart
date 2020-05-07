@@ -93,13 +93,27 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
   }
 
   Future<bool> resendVerificationEmail() async {
-    print('resend called');
     try {
       final FirebaseUser user = await auth.currentUser();
       user.sendEmailVerification();
       return true;
     } on PlatformException {
       throw EmailResendException();
+    }
+  }
+
+  Future<bool> updateUserData({String displayname, String phoneNumber}) async {
+    try{
+      final FirebaseUser user = await auth.currentUser();
+      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+      if(displayname != 'N/A' && displayname != ''){
+        userUpdateInfo.displayName = displayname;
+        await user.updateProfile(userUpdateInfo);
+        await user.reload();
+      }
+      return true;
+    } on PlatformException {
+      throw UserProfileUpdateException();
     }
   }
 }

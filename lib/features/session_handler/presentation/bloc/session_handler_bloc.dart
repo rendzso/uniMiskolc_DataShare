@@ -9,6 +9,7 @@ import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/l
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/resend_verification_email.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/update_user_profile.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/waiting_for_email_verification.dart';
 
 part 'session_handler_event.dart';
@@ -22,6 +23,7 @@ class SessionHandlerBloc
   final SignUpUseCase signUpUseCase;
   final WaitingForEmailVerificationUseCase waitingForEmailVerificationUseCase;
   final ResendVerificationEmailUseCase resendVerificationEmailUseCase;
+  final UpdateUserProfileUseCase updateUserProfileUseCase;
 
   SessionHandlerBloc({
     @required this.loginUseCase,
@@ -30,6 +32,7 @@ class SessionHandlerBloc
     @required this.signUpUseCase,
     @required this.waitingForEmailVerificationUseCase,
     @required this.resendVerificationEmailUseCase,
+    @required this.updateUserProfileUseCase,
   });
 
   @override
@@ -83,6 +86,13 @@ class SessionHandlerBloc
       );
     } else if (event is ResendVerificationEmail) {
       resendVerificationEmailUseCase();
+    } else if (event is UpdateUserProfile) {
+      yield Loading();
+      await updateUserProfileUseCase(
+          displayname: event.displayName, phoneNumber: event.phoneNumber);
+      final loggedInOrEception = await checkIfLoggedInUseCase();
+      yield loggedInOrEception.fold(
+          (no) => LogInPage(), (user) => LoggedIn(user: user));
     }
   }
 }

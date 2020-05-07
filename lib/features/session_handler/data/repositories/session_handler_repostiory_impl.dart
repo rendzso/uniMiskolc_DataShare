@@ -106,4 +106,19 @@ class SessionHandlerRepositoryImplementation
       return Left(EmailResendException());
     }
   }
+
+  Future<Either<Exception, bool>> updateUserData(
+      {String displayname, String phoneNumber}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final answer = await remoteDataSource.updateUserData(
+            displayname: displayname, phoneNumber: phoneNumber);
+        return Right(answer);
+      } on UserProfileUpdateException {
+        return Left(UserProfileUpdateException());
+      }
+    } else {
+      return Left(UserProfileUpdateException());
+    }
+  }
 }

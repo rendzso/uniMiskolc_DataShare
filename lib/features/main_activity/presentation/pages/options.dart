@@ -15,6 +15,7 @@ class _OptionsPageState extends State<OptionsPage> {
   String newUserName;
   String newPhoneNumber;
   bool isEditable = false;
+  bool changed = false;
 
   final myUserNameChangeController = TextEditingController();
   final myPhoneNumberChangeController = TextEditingController();
@@ -22,8 +23,8 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   void initState() {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
-    newUserName = user.displayName == null ? 'N/A' : user.displayName;
-    newPhoneNumber = user.phoneNumber == null ? 'N/A' : user.phoneNumber;
+    newUserName = user.displayName.toString();
+    newPhoneNumber = user.phoneNumber.toString();
     myUserNameChangeController.addListener(() {
       newUserName = myUserNameChangeController.text;
       checkIfDataChanged();
@@ -62,12 +63,13 @@ class _OptionsPageState extends State<OptionsPage> {
             ),
             CustomInputField(
               myController: myPhoneNumberChangeController,
-              textHint: 'Phone number',
-              initialString:
-                  user.phoneNumber == null ? 'N/A' : user.phoneNumber,
+              textHint: 'Phone number verification isnt supported yet',
+              initialString: user.phoneNumber == null
+                  ? 'Phone number verification isnt supported yet'
+                  : user.phoneNumber,
               isPassword: false,
               rowText: 'Phone number:',
-              onlyText: !isEditable,
+              onlyText: true,
             ),
             CustomInputField(
               textHint: 'Email address',
@@ -98,9 +100,13 @@ class _OptionsPageState extends State<OptionsPage> {
               visible: isEditable,
               child: RaisedButton(
                 child: Text('Save changes'),
-                onPressed: checkIfDataChanged()
+                onPressed: changed
                     ? () {
-                        print(newUserName);
+                        BlocProvider.of<SessionHandlerBloc>(context).add(
+                          UpdateUserProfile(
+                              displayName: newUserName,
+                              phoneNumber: 'newPhoneNumber'),
+                        );
                       }
                     : null,
               ),
@@ -131,9 +137,14 @@ class _OptionsPageState extends State<OptionsPage> {
   }
 
   checkIfDataChanged() {
-    if (user.displayName == newUserName || user.phoneNumber == newPhoneNumber) {
-      return false;
-    } else
-      return true;
+    setState(() {
+      if ((newUserName != '' && newUserName != user.displayName.toString()) ||
+          (newPhoneNumber != '' &&
+              newPhoneNumber != user.phoneNumber.toString())) {
+        changed = true;
+      } else {
+        changed = false;
+      }
+    });
   }
 }
