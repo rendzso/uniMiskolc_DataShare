@@ -40,6 +40,11 @@ class SessionHandlerBloc
       yield Loading();
       final loginOrException =
           await loginUseCase(email: event.email, password: event.password);
+      final verified = loginOrException.fold((error) => null, (user) => user.isEmailVerified);
+      if (verified !=null && verified == false){
+        yield WaitingForEmailVerification();
+        await waitingForEmailVerificationUseCase();
+      }
       yield loginOrException.fold(
           (error) => Error(message: 'Error when logging in'),
           (user) => LoggedIn(user: user));
@@ -52,6 +57,11 @@ class SessionHandlerBloc
     } else if (event is CheckIfLoggedIn) {
       yield Loading();
       final loggedInOrEception = await checkIfLoggedInUseCase();
+      final verified = loggedInOrEception.fold((error) => null, (user) => user.isEmailVerified);
+      if (verified !=null && verified == false){
+        yield WaitingForEmailVerification();
+        await waitingForEmailVerificationUseCase();
+      }
       yield loggedInOrEception.fold(
           (no) => LogInPage(), (user) => LoggedIn(user: user));
     } else if (event is OpenSignUpPage) {
