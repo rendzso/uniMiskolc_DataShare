@@ -28,11 +28,19 @@ class _DrawerMenuState extends State<DrawerMenu> {
               },
             ),
             ListTile(
-              title: Text('Options'),
+              title: Text('User Options'),
               leading: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pop();
                 BlocProvider.of<MainActivityBloc>(context).add(OpenOptionsPage());
+              },
+            ),
+            ListTile(
+              title: Text('Manage Data'),
+              leading: Icon(Icons.portrait),
+              onTap: () {
+                Navigator.of(context).pop();
+                BlocProvider.of<MainActivityBloc>(context).add(OpenDataManagementPage());
               },
             ),
             ListTile(

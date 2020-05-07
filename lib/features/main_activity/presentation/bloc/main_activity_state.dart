@@ -13,3 +13,8 @@ class WelcomePageState extends MainActivityState {
   @override
   List<Object> get props => null;
 }
+
+class DataManagementPageState extends MainActivityState {
+  @override
+  List<Object> get props => null;
+}

@@ -123,7 +123,6 @@ class _OptionsPageState extends State<OptionsPage> {
               child: RaisedButton(
                 child: Text('Edit'),
                 onPressed: () {
-                  print(user);
                   setState(() {
                     isEditable = true;
                   });

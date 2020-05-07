@@ -18,6 +18,8 @@ class MainActivityBloc extends Bloc<MainActivityEvent, MainActivityState> {
       yield OptionsPageState();
     } else if (event is OpenWelcomePage) {
       yield WelcomePageState();
+    } else if( event is OpenDataManagementPage) {
+      yield DataManagementPageState();
     }
   }
 }

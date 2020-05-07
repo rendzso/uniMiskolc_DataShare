@@ -4,11 +4,17 @@ abstract class MainActivityEvent extends Equatable {
   const MainActivityEvent();
 }
 
-class OpenOptionsPage extends MainActivityEvent{
+class OpenOptionsPage extends MainActivityEvent {
   @override
   List<Object> get props => null;
 }
-class OpenWelcomePage extends MainActivityEvent{
+
+class OpenWelcomePage extends MainActivityEvent {
+  @override
+  List<Object> get props => null;
+}
+
+class OpenDataManagementPage extends MainActivityEvent {
   @override
   List<Object> get props => null;
 }
