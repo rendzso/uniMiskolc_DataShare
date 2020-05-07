@@ -58,7 +58,6 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
     Timer.periodic(Duration(seconds: 3), (timer) async {
       FirebaseUser user = await auth.currentUser();
       user.reload();
-      print('reloaded!!!');
       if (user.isEmailVerified == true) {
         timer.cancel();
         completer.complete(user);
@@ -91,5 +90,16 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
     Completer completer = new Completer();
     _waitingForEmailVerification(completer: completer);
     return await completer.future;
+  }
+
+  Future<bool> resendVerificationEmail() async {
+    print('resend called');
+    try {
+      final FirebaseUser user = await auth.currentUser();
+      user.sendEmailVerification();
+      return true;
+    } on PlatformException {
+      throw EmailResendException();
+    }
   }
 }

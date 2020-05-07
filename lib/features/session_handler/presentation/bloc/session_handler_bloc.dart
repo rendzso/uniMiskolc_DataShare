@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/check_if_logged_in.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/resend_verification_email.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/waiting_for_email_verification.dart';
 
@@ -20,6 +21,7 @@ class SessionHandlerBloc
   final CheckIfLoggedInUseCase checkIfLoggedInUseCase;
   final SignUpUseCase signUpUseCase;
   final WaitingForEmailVerificationUseCase waitingForEmailVerificationUseCase;
+  final ResendVerificationEmailUseCase resendVerificationEmailUseCase;
 
   SessionHandlerBloc({
     @required this.loginUseCase,
@@ -27,6 +29,7 @@ class SessionHandlerBloc
     @required this.checkIfLoggedInUseCase,
     @required this.signUpUseCase,
     @required this.waitingForEmailVerificationUseCase,
+    @required this.resendVerificationEmailUseCase,
   });
 
   @override
@@ -40,8 +43,9 @@ class SessionHandlerBloc
       yield Loading();
       final loginOrException =
           await loginUseCase(email: event.email, password: event.password);
-      final verified = loginOrException.fold((error) => null, (user) => user.isEmailVerified);
-      if (verified !=null && verified == false){
+      final verified = loginOrException.fold(
+          (error) => null, (user) => user.isEmailVerified);
+      if (verified != null && verified == false) {
         yield WaitingForEmailVerification();
         await waitingForEmailVerificationUseCase();
       }
@@ -57,8 +61,9 @@ class SessionHandlerBloc
     } else if (event is CheckIfLoggedIn) {
       yield Loading();
       final loggedInOrEception = await checkIfLoggedInUseCase();
-      final verified = loggedInOrEception.fold((error) => null, (user) => user.isEmailVerified);
-      if (verified !=null && verified == false){
+      final verified = loggedInOrEception.fold(
+          (error) => null, (user) => user.isEmailVerified);
+      if (verified != null && verified == false) {
         yield WaitingForEmailVerification();
         await waitingForEmailVerificationUseCase();
       }
@@ -75,6 +80,13 @@ class SessionHandlerBloc
       yield signedUpOrException.fold(
         (error) => Error(message: 'Cant signUp'),
         (newUser) => LoggedIn(user: newUser),
+      );
+    } else if (event is ResendVerificationEmail) {
+      yield Loading();
+      final resendedOrException = await resendVerificationEmailUseCase();
+      yield resendedOrException.fold(
+        (error) => Error(message: 'Cant resend email'),
+        (ok) => WaitingForEmailVerification(),
       );
     }
   }

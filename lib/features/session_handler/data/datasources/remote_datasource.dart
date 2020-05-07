@@ -19,4 +19,6 @@ abstract class RemoteDataSource {
   });
 
   Future<void> waitingForEmailVerification();
+
+  Future<bool> resendVerificationEmail();
 }

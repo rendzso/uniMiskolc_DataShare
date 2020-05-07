@@ -10,4 +10,5 @@ abstract class SessionHandlerRepository {
   Future<Either<Exception, FirebaseUser>> checkIfLoggedIn();
   Future<Either<Exception, FirebaseUser>> signUp({@required String email,@required String password});
   Future<Either<Exception, bool>> waitingForEmailVerification();
+  Future<Either<Exception, bool>> resendVerificationEmail();
 }

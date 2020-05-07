@@ -38,3 +38,7 @@ class OpenLogInPage extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+class ResendVerificationEmail extends SessionHandlerEvent {
+  @override
+  List<Object> get props => null;
+}

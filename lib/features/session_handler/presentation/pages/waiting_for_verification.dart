@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class WaitingForEmailVerificationPage extends StatelessWidget{
+class WaitingForEmailVerificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text('Waiting for email verification!');
+    return Column(
+      children: <Widget>[
+        Text('Waiting for email verification!'),
+      ],
+    );
   }
-  
 }

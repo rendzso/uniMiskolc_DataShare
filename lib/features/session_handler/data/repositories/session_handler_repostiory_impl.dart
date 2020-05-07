@@ -84,7 +84,6 @@ class SessionHandlerRepositoryImplementation
   Future<Either<Exception, bool>> waitingForEmailVerification() async {
     if (await networkInfo.isConnected) {
       try {
-        print('repositorie');
         await remoteDataSource.waitingForEmailVerification();
         return Right(true);
       } on LoginException {
@@ -92,6 +91,19 @@ class SessionHandlerRepositoryImplementation
       }
     } else {
       return Left(LoginException());
+    }
+  }
+
+  Future<Either<Exception, bool>> resendVerificationEmail() async {
+    if (await networkInfo.isConnected) {
+      try {
+        await remoteDataSource.resendVerificationEmail();
+        return Right(true);
+      } on EmailResendException {
+        return Left(EmailResendException());
+      }
+    } else {
+      return Left(EmailResendException());
     }
   }
 }
