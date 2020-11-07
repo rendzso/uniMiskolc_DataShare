@@ -13,3 +13,7 @@ class UserProfileUpdateException implements Exception {}
 class CannotFetchUserDataModelException implements Exception {}
 
 class CannotSaveUserDataModelException implements Exception {}
+
+class CannotCheckAccountTypeException implements Exception {}
+
+class CannotUpdateAccountTypeException implements Exception {}

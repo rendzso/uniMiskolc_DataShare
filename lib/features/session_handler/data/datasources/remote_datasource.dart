@@ -23,4 +23,8 @@ abstract class RemoteDataSource {
   Future<bool> resendVerificationEmail();
 
   Future<bool> updateUserData({String displayname, String phoneNumber});
+
+  Future<String> checkAccountType({String userUID});
+
+  Future<bool> updateAccountType({String userUID, String type});
 }

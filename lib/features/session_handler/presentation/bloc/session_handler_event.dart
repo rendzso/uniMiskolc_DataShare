@@ -35,19 +35,42 @@ class LogOut extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+
 class CheckIfLoggedIn extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+
 class OpenSignUpPage extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+
 class OpenLogInPage extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
 }
+
 class ResendVerificationEmail extends SessionHandlerEvent {
   @override
   List<Object> get props => null;
+}
+
+class CheckAccountType extends SessionHandlerEvent {
+  final FirebaseUser user;
+
+  CheckAccountType({@required this.user});
+
+  @override
+  List<Object> get props => [this.user];
+}
+
+class UpdateAccountType extends SessionHandlerEvent {
+  final FirebaseUser user;
+  final String type;
+
+  UpdateAccountType({@required this.user, @required this.type});
+
+  @override
+  List<Object> get props => [this.user, this.type];
 }

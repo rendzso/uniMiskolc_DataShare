@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -12,9 +13,13 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
   final FirebaseAuth auth;
   final SecureStore secureStore;
   final http.Client client;
+  var databaseReference = Firestore.instance;
 
   RemoteDataSourceImplementation(
-      {@required this.secureStore, @required this.auth, @required this.client});
+      {@required this.secureStore,
+      @required this.auth,
+      @required this.client,
+      @required this.databaseReference});
   @override
   Future<FirebaseUser> login({
     @required String email,
@@ -102,11 +107,12 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
     }
   }
 
+  @override
   Future<bool> updateUserData({String displayname, String phoneNumber}) async {
-    try{
+    try {
       final FirebaseUser user = await auth.currentUser();
       UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
-      if(displayname != 'N/A' && displayname != ''){
+      if (displayname != 'N/A' && displayname != '') {
         userUpdateInfo.displayName = displayname;
         await user.updateProfile(userUpdateInfo);
         await user.reload();
@@ -114,6 +120,35 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
       return true;
     } on PlatformException {
       throw UserProfileUpdateException();
+    }
+  }
+
+  @override
+  Future<String> checkAccountType({String userUID}) async {
+    try {
+      final answer = await databaseReference
+          .collection('accountType')
+          .document(userUID)
+          .get();
+      final type =
+          answer.data != null ? answer.data.entries.first.value : 'null';
+      return type;
+    } on PlatformException {
+      throw CannotCheckAccountTypeException();
+    }
+  }
+
+  @override
+  Future<bool> updateAccountType({String userUID, String type}) async {
+    try {
+      final requestJSON = {'type': type};
+      await databaseReference
+          .collection('accountType')
+          .document(userUID)
+          .setData(requestJSON);
+      return true;
+    } on PlatformException {
+      throw CannotUpdateAccountTypeException();
     }
   }
 }

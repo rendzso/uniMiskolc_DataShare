@@ -21,7 +21,7 @@ class MainActivityRemoteDataSourceImplementation
       final UserDataModel userDataModel = UserDataModel.fromJson(answer.data);
       return userDataModel;
     } on PlatformException {
-      throw CannotFetchUserDataModelException();
+      throw InternetException();
     }
   }
 
@@ -34,7 +34,7 @@ class MainActivityRemoteDataSourceImplementation
           .setData(userData.toJson());
       return true;
     } on PlatformException {
-      throw CannotSaveUserDataModelException();
+      throw InternetException();
     }
   }
 }

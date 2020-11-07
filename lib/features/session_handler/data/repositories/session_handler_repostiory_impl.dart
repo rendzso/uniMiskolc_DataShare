@@ -60,7 +60,7 @@ class SessionHandlerRepositoryImplementation
         return Left(LoginException());
       }
     } else {
-      return Left(LoginException());
+      return Left(InternetException());
     }
   }
 
@@ -90,7 +90,7 @@ class SessionHandlerRepositoryImplementation
         return Left(LoginException());
       }
     } else {
-      return Left(LoginException());
+      return Left(InternetException());
     }
   }
 
@@ -103,7 +103,7 @@ class SessionHandlerRepositoryImplementation
         return Left(EmailResendException());
       }
     } else {
-      return Left(EmailResendException());
+      return Left(InternetException());
     }
   }
 
@@ -118,7 +118,38 @@ class SessionHandlerRepositoryImplementation
         return Left(UserProfileUpdateException());
       }
     } else {
-      return Left(UserProfileUpdateException());
+      return Left(InternetException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, String>> getAccountType({String userUID}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final answer =
+            await remoteDataSource.checkAccountType(userUID: userUID);
+        return Right(answer);
+      } on CannotCheckAccountTypeException {
+        return Left(CannotCheckAccountTypeException());
+      }
+    } else {
+      return Left(LoginException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, bool>> updateAccountType(
+      {String userUID, String type}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final answer = await remoteDataSource.updateAccountType(
+            userUID: userUID, type: type);
+        return Right(answer);
+      } on CannotUpdateAccountTypeException {
+        return Left(CannotUpdateAccountTypeException());
+      }
+    } else {
+      return Left(InternetException());
     }
   }
 }

@@ -18,11 +18,13 @@ import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource_impl.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/repositories/session_handler_repostiory_impl.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/repositories/session_handler_repository.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/chack_account_type.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/check_if_logged_in.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/login.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/logout.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/resend_verification_email.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/signup.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/update_account_type.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/update_user_profile.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/usecases/waiting_for_email_verification.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
@@ -63,6 +65,8 @@ void registerSessionHandler() {
       waitingForEmailVerificationUseCase: injector(),
       resendVerificationEmailUseCase: injector(),
       updateUserProfileUseCase: injector(),
+      checkAccountTypeUseCase: injector(),
+      updateAccountTypeUseCase: injector(),
     ),
   );
 
@@ -83,9 +87,16 @@ void registerSessionHandler() {
       remoteDataSource: injector(),
     ),
   );
+  injector.registerLazySingleton(
+      () => CheckAccountTypeUseCase(repository: injector()));
+  injector.registerLazySingleton(
+      () => UpdateAccountTypeUseCase(repository: injector()));
   injector.registerLazySingleton<RemoteDataSource>(
     () => RemoteDataSourceImplementation(
-        auth: injector(), secureStore: injector(), client: injector()),
+        auth: injector(),
+        secureStore: injector(),
+        client: injector(),
+        databaseReference: injector()),
   );
 }
 

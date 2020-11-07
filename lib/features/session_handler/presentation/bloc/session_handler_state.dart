@@ -37,6 +37,15 @@ class LoggedIn extends SessionHandlerState {
   List<Object> get props => [user];
 }
 
+class LoggedInWithType extends SessionHandlerState {
+  final FirebaseUser user;
+  final String type;
+  const LoggedInWithType({@required this.user, @required this.type});
+
+  @override
+  List<Object> get props => [user, type];
+}
+
 class Error extends SessionHandlerState {
   final String message;
   const Error({@required this.message});

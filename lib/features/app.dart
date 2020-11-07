@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/core/injector/injector.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_main.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/account_type_changer.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/login_form.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/pages/waiting_for_verification.dart';
 
@@ -54,13 +56,42 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is LoggedIn) {
-              return Main();
+              BlocProvider.of<SessionHandlerBloc>(context).add(CheckAccountType(
+                  user: BlocProvider.of<SessionHandlerBloc>(context)
+                      .state
+                      .props[0]));
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             } else if (state is Error) {
               return Text(state.message);
             } else if (state is SignUpPage) {
               return SignUpForm();
             } else if (state is WaitingForEmailVerification) {
               return WaitingForEmailVerificationPage();
+            } else if (state is LoggedInWithType) {
+              switch (
+                  BlocProvider.of<SessionHandlerBloc>(context).state.props[1]) {
+                case 'null':
+                  {
+                    return AccountTypeChanger();
+                  }
+                  break;
+                case 'client':
+                  {
+                    return Main();
+                  }
+                  break;
+                case 'provider':
+                  {
+                    return ProviderMain();
+                  }
+                  break;
+                default:
+                  {
+                    return AccountTypeChanger();
+                  }
+              }
             }
           }),
         ));
