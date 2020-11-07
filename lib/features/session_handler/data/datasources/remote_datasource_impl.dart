@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -130,8 +131,7 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
           .collection('accountType')
           .document(userUID)
           .get();
-      final type =
-          answer.data != null ? answer.data.entries.first.value : 'null';
+      final type = answer.data != null ? answer.data.values.first : 'null';
       return type;
     } on PlatformException {
       throw CannotCheckAccountTypeException();

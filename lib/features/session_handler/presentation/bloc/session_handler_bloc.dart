@@ -102,7 +102,7 @@ class SessionHandlerBloc
           (no) => LogInPage(), (user) => LoggedIn(user: user));
     } else if (event is CheckAccountType) {
       final typeOrException =
-          await checkAccountTypeUseCase(userUID: event.user.providerId);
+          await checkAccountTypeUseCase(userUID: event.user.uid);
       final type = typeOrException.fold((error) => null, (type) => type);
       yield LoggedInWithType(user: event.user, type: type);
     } else if (event is UpdateAccountType) {
