@@ -100,16 +100,10 @@ class _DataManagementState extends State<DataManagement> {
             child: Text('Save data'),
             onPressed: changed
                 ? () {
-                    UserDataModel userData = UserDataModel(
-                      fistName: newFirstName,
-                      lastName: newLastName,
-                      dateOfBirth: newDateOfBirth,
-                      personalID: newPersonalID,
-                    );
-                    databaseReference
-                        .collection('userData')
-                        .document(user.uid)
-                        .setData(userData.toJson());
+                    BlocProvider.of<MainActivityBloc>(context).add(
+                        SaveUserModelData(
+                            userUID: user.uid,
+                            userDataModel: getNewUserData()));
                   }
                 : null,
           ),

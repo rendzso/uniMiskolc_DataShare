@@ -30,3 +30,13 @@ class FetchUserModelData extends MainActivityEvent {
   @override
   List<Object> get props => [this.userUID];
 }
+
+class SaveUserModelData extends MainActivityEvent {
+  final String userUID;
+  final UserDataModel userDataModel;
+
+  SaveUserModelData({@required this.userUID, @required this.userDataModel});
+
+  @override
+  List<Object> get props => [this.userUID, this.userDataModel];
+}

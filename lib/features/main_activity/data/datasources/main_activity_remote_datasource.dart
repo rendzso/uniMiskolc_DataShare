@@ -2,5 +2,5 @@ import 'package:uni_miskolc_datashare/features/main_activity/data/models/user_da
 
 abstract class MainActivityRemoteDataSource {
   Future<UserDataModel> fetchUserDataModel({String userUID});
-  Future<void> addDataToDatabase({String userUID, UserDataModel userData});
+  Future<bool> saveUserDataModel({String userUID, UserDataModel userData});
 }

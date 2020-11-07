@@ -25,8 +25,24 @@ class MainActivityRepositoryImplementation implements MainActivityRepository {
           userUID: userUID,
         );
         return Right(userDataModel);
-      } on LoginException {
-        return Left(LoginException());
+      } on CannotFetchUserDataModelException {
+        return Left(CannotFetchUserDataModelException());
+      }
+    } else {
+      return Left(InternetException());
+    }
+  }
+
+  @override
+  Future<Either<Exception, bool>> saveUserDataModel(
+      {String userUID, UserDataModel userDataModel}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        await mainActivityRemoteDataSource.saveUserDataModel(
+            userUID: userUID, userData: userDataModel);
+        return Right(true);
+      } on CannotSaveUserDataModelException {
+        return Left(CannotSaveUserDataModelException());
       }
     } else {
       return Left(InternetException());
