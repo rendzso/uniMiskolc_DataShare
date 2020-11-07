@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/bloc/provider_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
@@ -33,8 +34,8 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               leading: Icon(Icons.contact_mail),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context)
-                    .add(OpenWelcomePage());
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenProviderWelcomePage());
               },
             ),
             ListTile(
@@ -42,21 +43,21 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               leading: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context)
-                    .add(OpenOptionsPage());
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenProviderOptionsPage());
               },
             ),
             ListTile(
-              title: Text('Manage Data'),
+              title: Text('Required data manager'),
               leading: Icon(Icons.portrait),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context)
-                    .add(OpenDataManagementPage(userUID: user.uid));
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenProviderRequiredDataManager());
               },
             ),
             ListTile(
-              title: Text('QR code scan'),
+              title: Text('QR code generator'),
               leading: Icon(Icons.qr_code),
               onTap: () async {
                 String cameraScanResult = await scanner.scan();
