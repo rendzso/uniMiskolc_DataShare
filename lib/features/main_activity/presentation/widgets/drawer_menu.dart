@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class DrawerMenu extends StatefulWidget {
   @override
@@ -52,6 +53,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 Navigator.of(context).pop();
                 BlocProvider.of<MainActivityBloc>(context)
                     .add(OpenDataManagementPage(userUID: user.uid));
+              },
+            ),
+            ListTile(
+              title: Text('QR code scan'),
+              leading: Icon(Icons.qr_code),
+              onTap: () async {
+                String cameraScanResult = await scanner.scan();
+                print(cameraScanResult);
               },
             ),
             ListTile(

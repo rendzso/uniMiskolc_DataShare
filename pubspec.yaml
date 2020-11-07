@@ -32,6 +32,7 @@ dependencies:
   equatable: any
   flutter_secure_storage: any
   http: any
+  qrscan: ^0.2.17
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
