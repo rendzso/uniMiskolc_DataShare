@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
@@ -9,6 +10,13 @@ class DrawerMenu extends StatefulWidget {
 }
 
 class _DrawerMenuState extends State<DrawerMenu> {
+  FirebaseUser user;
+  @override
+  void initState() {
+    user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -24,7 +32,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
               leading: Icon(Icons.contact_mail),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context).add(OpenWelcomePage());
+                BlocProvider.of<MainActivityBloc>(context)
+                    .add(OpenWelcomePage());
               },
             ),
             ListTile(
@@ -32,7 +41,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
               leading: Icon(Icons.settings),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context).add(OpenOptionsPage());
+                BlocProvider.of<MainActivityBloc>(context)
+                    .add(OpenOptionsPage());
               },
             ),
             ListTile(
@@ -40,7 +50,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
               leading: Icon(Icons.portrait),
               onTap: () {
                 Navigator.of(context).pop();
-                BlocProvider.of<MainActivityBloc>(context).add(OpenDataManagementPage());
+                BlocProvider.of<MainActivityBloc>(context)
+                    .add(OpenDataManagementPage(userUID: user.uid));
               },
             ),
             ListTile(

@@ -16,4 +16,7 @@ class UserData extends Equatable {
 
   @override
   List<Object> get props => [fistName, lastName, dateOfBirth, personalID];
+
+  @override
+  bool get stringify => true;
 }

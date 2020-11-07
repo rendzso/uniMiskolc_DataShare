@@ -43,7 +43,7 @@ class _SignUpFormState extends State<SignUpForm> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                height: 300,
+                height: 270,
                 child: Image.asset('assets/images/logo.png'),
               ),
             ),
@@ -76,7 +76,8 @@ class _SignUpFormState extends State<SignUpForm> {
             RaisedButton(
               child: Text('Sign Up!'),
               onPressed: () {
-                BlocProvider.of<SessionHandlerBloc>(context).add(SignUp(email: email, password: password));
+                BlocProvider.of<SessionHandlerBloc>(context)
+                    .add(SignUp(email: email, password: password));
               },
             ),
             Padding(

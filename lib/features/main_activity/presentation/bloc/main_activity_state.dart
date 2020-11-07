@@ -15,6 +15,24 @@ class WelcomePageState extends MainActivityState {
 }
 
 class DataManagementPageState extends MainActivityState {
+  final UserDataModel userDataModel;
+  const DataManagementPageState({@required this.userDataModel});
   @override
-  List<Object> get props => null;
+  List<Object> get props => [this.userDataModel];
+}
+
+class Okay extends MainActivityState {
+  final UserDataModel userDataModel;
+  const Okay({@required this.userDataModel});
+
+  @override
+  List<Object> get props => [userDataModel];
+}
+
+class Error extends MainActivityState {
+  final String message;
+  const Error({@required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

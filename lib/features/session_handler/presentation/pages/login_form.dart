@@ -42,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Container(
-              height: 300,
+              height: 270,
               child: Image.asset('assets/images/logo.png'),
             ),
           ),

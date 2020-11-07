@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -6,6 +7,11 @@ import 'package:http/http.dart' as http;
 import 'package:uni_miskolc_datashare/core/network/network_info.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store_impl.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/main_activity_remote_datasource.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/main_activity_remote_datasource_impl.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/repositories/main_activity_repository_impl.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/domain/repositories/main_activity_repository.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource_impl.dart';
@@ -36,6 +42,7 @@ void registerCore() {
   );
   injector.registerLazySingleton(() => DataConnectionChecker());
   injector.registerLazySingleton(() => FirebaseAuth.instance);
+  injector.registerLazySingleton(() => Firestore.instance);
   injector.registerLazySingleton(() => http.Client());
   injector.registerLazySingleton<SecureStore>(
     () => SecureStoreImplementation(
@@ -83,6 +90,17 @@ void registerSessionHandler() {
 
 void registerMainActivity() {
   injector.registerFactory(
-    () => MainActivityBloc(),
+    () => MainActivityBloc(getUserModelDataUseCase: injector()),
   );
+
+  injector.registerLazySingleton(
+      () => GetUserModelDataUseCase(repository: injector()));
+
+  injector.registerLazySingleton<MainActivityRepository>(() =>
+      MainActivityRepositoryImplementation(
+          networkInfo: injector(), mainActivityRemoteDataSource: injector()));
+
+  injector.registerLazySingleton<MainActivityRemoteDataSource>(() =>
+      MainActivityRemoteDataSourceImplementation(
+          databaseReference: injector()));
 }

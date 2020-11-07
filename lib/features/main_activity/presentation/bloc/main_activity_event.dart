@@ -15,6 +15,18 @@ class OpenWelcomePage extends MainActivityEvent {
 }
 
 class OpenDataManagementPage extends MainActivityEvent {
+  final String userUID;
+
+  OpenDataManagementPage({@required this.userUID});
   @override
-  List<Object> get props => null;
+  List<Object> get props => [this.userUID];
+}
+
+class FetchUserModelData extends MainActivityEvent {
+  final String userUID;
+
+  FetchUserModelData({@required this.userUID});
+
+  @override
+  List<Object> get props => [this.userUID];
 }

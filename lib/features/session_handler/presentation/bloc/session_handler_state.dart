@@ -13,6 +13,7 @@ class LogInPage extends SessionHandlerState {
   @override
   List<Object> get props => [];
 }
+
 class SignUpPage extends SessionHandlerState {
   @override
   List<Object> get props => [];

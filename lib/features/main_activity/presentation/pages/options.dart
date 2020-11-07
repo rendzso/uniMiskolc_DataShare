@@ -64,9 +64,7 @@ class _OptionsPageState extends State<OptionsPage> {
             CustomInputField(
               myController: myPhoneNumberChangeController,
               textHint: 'Phone number verification isnt supported yet',
-              initialString: user.phoneNumber == null
-                  ? 'Phone number verification isnt supported yet'
-                  : user.phoneNumber,
+              initialString: 'Phone number verification isnt supported yet',
               isPassword: false,
               rowText: 'Phone number:',
               onlyText: true,
