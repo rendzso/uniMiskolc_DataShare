@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/models/provider_request_model.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -60,7 +63,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
               leading: Icon(Icons.qr_code),
               onTap: () async {
                 String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
+                ProviderRequestDataModel requestedData =
+                    ProviderRequestDataModel.fromJson(
+                        jsonDecode(cameraScanResult));
+                print(requestedData.providerName);
+                print(requestedData.providerUID);
+                print(requestedData.requiredDataList);
               },
             ),
             ListTile(
