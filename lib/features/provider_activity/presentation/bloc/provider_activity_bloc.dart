@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/get_fcm_token.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/get_required_data_list.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/save_required_data_list.dart';
-import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/show_actual_qr_code.dart';
 
 part 'provider_activity_event.dart';
 part 'provider_activity_state.dart';
@@ -14,10 +14,13 @@ class ProviderActivityBloc
     extends Bloc<ProviderActivityEvent, ProviderActivityState> {
   final GetRequiredDataListUseCase getRequiredDataListUseCase;
   final SaveRequiredDataListUseCase saveRequiredDataListUseCase;
+  final GetFCMTokenUseCase getFCMTokenUseCase;
 
-  ProviderActivityBloc(
-      {@required this.getRequiredDataListUseCase,
-      @required this.saveRequiredDataListUseCase});
+  ProviderActivityBloc({
+    @required this.getRequiredDataListUseCase,
+    @required this.saveRequiredDataListUseCase,
+    @required this.getFCMTokenUseCase,
+  });
 
   @override
   ProviderActivityState get initialState => ProviderWelcomePageState();
@@ -45,8 +48,16 @@ class ProviderActivityBloc
     } else if (event is OpenQRCodeGenerator) {
       final requiredDataListOrException =
           await getRequiredDataListUseCase(userUID: event.userUID);
-      yield requiredDataListOrException.fold((error) => null,
-          (list) => QRCodeGeneratorState(requiredDataList: list));
+      final fcmTokenOrException =
+          await getFCMTokenUseCase(userUID: event.userUID);
+      final fcmToken =
+          fcmTokenOrException.fold((error) => null, (token) => token);
+      if (fcmToken != null) {
+        yield requiredDataListOrException.fold(
+            (error) => null,
+            (list) => QRCodeGeneratorState(
+                requiredDataList: list, fcmToken: fcmToken));
+      }
     } else if (event is OpenShowQRCode) {
       yield ShowQRCodePageState();
     }

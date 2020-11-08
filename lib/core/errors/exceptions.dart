@@ -21,3 +21,5 @@ class CannotUpdateAccountTypeException implements Exception {}
 class SaveRequiredDataListException implements Exception {}
 
 class GetRequiredDataListException implements Exception {}
+
+class GetFCMTokenException implements Exception {}

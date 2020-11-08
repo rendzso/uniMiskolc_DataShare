@@ -3,14 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_miskolc_datashare/core/data/available_data.dart';
 import 'package:uni_miskolc_datashare/core/errors/exceptions.dart';
+import 'package:uni_miskolc_datashare/core/secure_store/secure_store.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/data/datasources/provider_activity_remote_data_source.dart';
 
 class ProviderActivityRemoteDataSourceImplementation
     implements ProviderActivityRemoteDataSource {
   var databaseReference = Firestore.instance;
+  final SecureStore secureStore;
 
   ProviderActivityRemoteDataSourceImplementation(
-      {@required this.databaseReference});
+      {@required this.databaseReference, @required this.secureStore});
 
   @override
   Future<List<String>> getRequiredDataList({String userUID}) async {
@@ -49,6 +51,16 @@ class ProviderActivityRemoteDataSourceImplementation
       return true;
     } on PlatformException {
       throw SaveRequiredDataListException();
+    }
+  }
+
+  @override
+  Future<String> getFCMToken({String userUID}) async {
+    try {
+      final fcmToken = await secureStore.getToken();
+      return fcmToken;
+    } on PlatformException {
+      throw GetFCMTokenException();
     }
   }
 }

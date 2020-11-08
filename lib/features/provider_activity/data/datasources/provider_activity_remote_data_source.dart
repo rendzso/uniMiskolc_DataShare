@@ -4,4 +4,5 @@ abstract class ProviderActivityRemoteDataSource {
   Future<List<String>> getRequiredDataList({@required String userUID});
   Future<bool> saveRequiredDataList(
       {String userUID, List<String> requiredDataList});
+  Future<String> getFCMToken({@required String userUID});
 }

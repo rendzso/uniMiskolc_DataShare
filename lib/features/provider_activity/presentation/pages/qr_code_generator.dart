@@ -21,6 +21,7 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
   final availableDataNameList = AvailableData().availableDataName;
   List<String> checkedDataList;
   FirebaseUser user;
+  String fcmToken;
   Uint8List bytes = Uint8List(200);
   bool qrVisible = false;
 
@@ -29,6 +30,7 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
     checkedDataList =
         BlocProvider.of<ProviderActivityBloc>(context).state.props[0];
+    fcmToken = BlocProvider.of<ProviderActivityBloc>(context).state.props[1];
     super.initState();
   }
 
@@ -102,7 +104,7 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
 
   generateQRCodeJSON() {
     return {
-      'providerUID': user.uid,
+      'providerFCMToken': fcmToken,
       'providerName': user.displayName,
       'requiredDataList': checkedDataList,
     };

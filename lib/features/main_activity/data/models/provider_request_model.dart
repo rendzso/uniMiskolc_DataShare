@@ -10,19 +10,19 @@ ProviderRequestDataModel parseUserData(String jsonResponse) {
 }
 
 class ProviderRequestDataModel extends ProviderRequest {
-  final String providerUID;
+  final String providerFCMToken;
   final String providerName;
   final List<String> requiredDataList;
 
   ProviderRequestDataModel({
-    @required this.providerUID,
+    @required this.providerFCMToken,
     @required this.providerName,
     @required this.requiredDataList,
   });
 
   factory ProviderRequestDataModel.fromJson(Map<String, dynamic> mappedJson) {
     return ProviderRequestDataModel(
-      providerUID: mappedJson['providerUID'],
+      providerFCMToken: mappedJson['providerFCMToken'],
       providerName: mappedJson['providerName'],
       requiredDataList: mappedJson['requiredDataList'].cast<String>(),
     );
@@ -30,12 +30,12 @@ class ProviderRequestDataModel extends ProviderRequest {
 
   toJson() {
     return {
-      "providerUID": this.providerUID,
+      "providerUID": this.providerFCMToken,
       "providerName": this.providerName,
       "requiredDataList": this.requiredDataList,
     };
   }
 
   @override
-  List<Object> get props => [providerUID, providerName, requiredDataList];
+  List<Object> get props => [providerFCMToken, providerName, requiredDataList];
 }

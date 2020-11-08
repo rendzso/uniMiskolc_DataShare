@@ -47,4 +47,19 @@ class ProviderActivityRepositoryImplementation
       return Left(InternetException());
     }
   }
+
+  @override
+  Future<Either<Exception, String>> getFCMToken({String userUID}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final fcmToken = await providerActivityRemoteDataSource.getFCMToken(
+            userUID: userUID);
+        return Right(fcmToken);
+      } on GetFCMTokenException {
+        return Left(GetFCMTokenException());
+      }
+    } else {
+      return Left(InternetException());
+    }
+  }
 }
