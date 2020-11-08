@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,8 +58,8 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
             RaisedButton(
                 child: Text('Generate'),
                 onPressed: () async {
-                  Uint8List result =
-                      await scanner.generateBarCode('alma vagyok hahaha');
+                  Uint8List result = await scanner
+                      .generateBarCode(jsonEncode(generateQRCodeJSON()));
                   setState(() {
                     bytes = result;
                     qrVisible = true;
@@ -70,7 +71,6 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
                     ? () async {
                         final success = await ImageGallerySaver.saveImage(bytes,
                             quality: 80, name: user.uid);
-                        print(success);
                         SnackBar snackBar;
                         if (success != null) {
                           snackBar = new SnackBar(
@@ -98,5 +98,13 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
         ),
       ),
     );
+  }
+
+  generateQRCodeJSON() {
+    return {
+      'providerUID': user.uid,
+      'providerName': user.displayName,
+      'requiredDataList': checkedDataList,
+    };
   }
 }
