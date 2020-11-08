@@ -14,6 +14,12 @@ import 'package:uni_miskolc_datashare/features/main_activity/domain/repositories
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/save_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/data/datasources/provider_activity_remote_data_source.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/data/datasources/provider_activity_remote_data_source_impl.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/data/repostirories/provider_activity_repositoy_impl.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/domain/repositories/provider_activity_repository.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/get_required_data_list.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/save_required_data_list.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/bloc/provider_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/data/datasources/remote_datasource_impl.dart';
@@ -124,5 +130,19 @@ void registerMainActivity() {
 }
 
 void registerProviderAvtivity() {
-  injector.registerFactory(() => ProviderActivityBloc());
+  injector.registerFactory(() => ProviderActivityBloc(
+      getRequiredDataListUseCase: injector(),
+      saveRequiredDataListUseCase: injector()));
+
+  injector.registerLazySingleton(
+      () => GetRequiredDataListUseCase(repository: injector()));
+  injector.registerLazySingleton(
+      () => SaveRequiredDataListUseCase(repository: injector()));
+  injector.registerLazySingleton<ProviderAvtivityRepository>(() =>
+      ProviderActivityRepositoryImplementation(
+          networkInfo: injector(),
+          providerActivityRemoteDataSource: injector()));
+  injector.registerLazySingleton<ProviderActivityRemoteDataSource>(() =>
+      ProviderActivityRemoteDataSourceImplementation(
+          databaseReference: injector()));
 }

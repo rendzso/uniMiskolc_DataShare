@@ -15,6 +15,8 @@ class ProviderOptionsPageState extends ProviderActivityState {
 }
 
 class ProviderRequiredDataManagerState extends ProviderActivityState {
+  final List<String> requiredDataList;
+  ProviderRequiredDataManagerState({@required this.requiredDataList});
   @override
-  List<Object> get props => null;
+  List<Object> get props => [this.requiredDataList];
 }

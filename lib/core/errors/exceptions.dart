@@ -17,3 +17,7 @@ class CannotSaveUserDataModelException implements Exception {}
 class CannotCheckAccountTypeException implements Exception {}
 
 class CannotUpdateAccountTypeException implements Exception {}
+
+class SaveRequiredDataListException implements Exception {}
+
+class GetRequiredDataListException implements Exception {}

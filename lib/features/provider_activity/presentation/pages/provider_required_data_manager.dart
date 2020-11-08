@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uni_miskolc_datashare/core/data/available_data.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/bloc/provider_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/widgets/provider_drawer_menu.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
@@ -23,7 +24,8 @@ class _ProviderRequiredDataManagementState
   @override
   void initState() {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
-    checkedDataList = [];
+    checkedDataList =
+        BlocProvider.of<ProviderActivityBloc>(context).state.props[0];
     super.initState();
   }
 
@@ -55,9 +57,17 @@ class _ProviderRequiredDataManagementState
                           } else if (newValue == false) {
                             checkedDataList.remove(availableDataList[index]);
                           }
-                          print(checkedDataList);
                         });
                       });
+                }),
+            RaisedButton(
+                child: Text('Save changes'),
+                onPressed: () {
+                  setState(() {
+                    BlocProvider.of<ProviderActivityBloc>(context).add(
+                        SaveProviderRequiredData(
+                            requiredData: checkedDataList, userUID: user.uid));
+                  });
                 }),
           ],
         ),

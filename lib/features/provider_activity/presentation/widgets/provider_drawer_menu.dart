@@ -53,7 +53,7 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               onTap: () {
                 Navigator.of(context).pop();
                 BlocProvider.of<ProviderActivityBloc>(context)
-                    .add(OpenProviderRequiredDataManager());
+                    .add(OpenProviderRequiredDataManager(userUID: user.uid));
               },
             ),
             ListTile(

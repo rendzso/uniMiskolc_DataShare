@@ -15,15 +15,19 @@ class OpenProviderWelcomePage extends ProviderActivityEvent {
 }
 
 class OpenProviderRequiredDataManager extends ProviderActivityEvent {
+  final String userUID;
+  OpenProviderRequiredDataManager({@required this.userUID});
   @override
-  List<Object> get props => null;
+  List<Object> get props => [this.userUID];
 }
 
 class SaveProviderRequiredData extends ProviderActivityEvent {
+  final String userUID;
   final List<String> requiredData;
 
-  SaveProviderRequiredData({@required this.requiredData});
+  SaveProviderRequiredData(
+      {@required this.requiredData, @required this.userUID});
 
   @override
-  List<Object> get props => [this.requiredData];
+  List<Object> get props => [this.requiredData, this.userUID];
 }
