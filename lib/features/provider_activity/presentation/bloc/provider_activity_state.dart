@@ -16,7 +16,18 @@ class ProviderOptionsPageState extends ProviderActivityState {
 
 class ProviderRequiredDataManagerState extends ProviderActivityState {
   final List<String> requiredDataList;
+
   ProviderRequiredDataManagerState({@required this.requiredDataList});
+
+  @override
+  List<Object> get props => [this.requiredDataList];
+}
+
+class QRCodeGeneratorState extends ProviderActivityState {
+  final List<String> requiredDataList;
+
+  QRCodeGeneratorState({@required this.requiredDataList});
+
   @override
   List<Object> get props => [this.requiredDataList];
 }

@@ -53,7 +53,6 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
   Future<FirebaseUser> checkIfLoggedIn() async {
     final oldUser = await auth.currentUser();
     if (oldUser == null) {
-      print('checkfrom datasource');
       throw LoginException();
     } else {
       return oldUser;

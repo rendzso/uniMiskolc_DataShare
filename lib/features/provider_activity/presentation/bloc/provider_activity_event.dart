@@ -16,7 +16,9 @@ class OpenProviderWelcomePage extends ProviderActivityEvent {
 
 class OpenProviderRequiredDataManager extends ProviderActivityEvent {
   final String userUID;
+
   OpenProviderRequiredDataManager({@required this.userUID});
+
   @override
   List<Object> get props => [this.userUID];
 }
@@ -30,4 +32,13 @@ class SaveProviderRequiredData extends ProviderActivityEvent {
 
   @override
   List<Object> get props => [this.requiredData, this.userUID];
+}
+
+class OpenQRCodeGenerator extends ProviderActivityEvent {
+  final String userUID;
+
+  OpenQRCodeGenerator({@required this.userUID});
+
+  @override
+  List<Object> get props => [this.userUID];
 }

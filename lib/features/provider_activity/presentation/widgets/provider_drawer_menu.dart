@@ -60,8 +60,9 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               title: Text('QR code generator'),
               leading: Icon(Icons.qr_code),
               onTap: () async {
-                String cameraScanResult = await scanner.scan();
-                print(cameraScanResult);
+                Navigator.of(context).pop();
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenQRCodeGenerator(userUID: user.uid));
               },
             ),
             ListTile(

@@ -6,6 +6,7 @@ import 'package:uni_miskolc_datashare/features/provider_activity/presentation/bl
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_options.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_required_data_manager.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_welcome_page.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/qr_code_generator.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
 class ProviderMain extends StatefulWidget {
@@ -34,6 +35,8 @@ class _ProviderMainState extends State<ProviderMain> {
             return ProviderOptionsPage();
           } else if (state is ProviderRequiredDataManagerState) {
             return ProviderRequiredDataManagement();
+          } else if (state is QRCodeGeneratorState) {
+            return QRCodeGenerator();
           }
         },
       ),

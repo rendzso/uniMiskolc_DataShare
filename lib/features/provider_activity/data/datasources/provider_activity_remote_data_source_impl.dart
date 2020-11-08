@@ -25,11 +25,8 @@ class ProviderActivityRemoteDataSourceImplementation
         return [];
       }
       for (var entity in answerList.entries) {
-        print(entity.key);
-        print(entity.value);
         if (entity.value == true) {
           returnList.add(entity.key);
-          print(returnList);
         }
       }
       return returnList;

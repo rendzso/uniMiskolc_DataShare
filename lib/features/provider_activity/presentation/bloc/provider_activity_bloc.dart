@@ -41,6 +41,11 @@ class ProviderActivityBloc
           (error) => null,
           (okey) => ProviderRequiredDataManagerState(
               requiredDataList: event.requiredData));
+    } else if (event is OpenQRCodeGenerator) {
+      final requiredDataListOrException =
+          await getRequiredDataListUseCase(userUID: event.userUID);
+      yield requiredDataListOrException.fold((error) => null,
+          (list) => QRCodeGeneratorState(requiredDataList: list));
     }
   }
 }

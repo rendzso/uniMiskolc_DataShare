@@ -107,11 +107,6 @@ class _DataManagementState extends State<DataManagement> {
                   }
                 : null,
           ),
-          RaisedButton(
-              child: Text('helper'),
-              onPressed: () {
-                print(user.runtimeType);
-              }),
         ],
       ),
     );
