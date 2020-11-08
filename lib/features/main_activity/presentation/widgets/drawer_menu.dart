@@ -66,9 +66,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 ProviderRequestDataModel requestedData =
                     ProviderRequestDataModel.fromJson(
                         jsonDecode(cameraScanResult));
-                print(requestedData.providerName);
-                print(requestedData.providerUID);
-                print(requestedData.requiredDataList);
+                BlocProvider.of<MainActivityBloc>(context).add(
+                    OpenSubscribePage(
+                        userUID: user.uid, requestedData: requestedData));
               },
             ),
             ListTile(

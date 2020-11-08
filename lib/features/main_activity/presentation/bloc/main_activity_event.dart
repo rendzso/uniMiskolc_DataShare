@@ -40,3 +40,13 @@ class SaveUserModelData extends MainActivityEvent {
   @override
   List<Object> get props => [this.userUID, this.userDataModel];
 }
+
+class OpenSubscribePage extends MainActivityEvent {
+  final String userUID;
+  final ProviderRequestDataModel requestedData;
+
+  OpenSubscribePage({@required this.userUID, @required this.requestedData});
+
+  @override
+  List<Object> get props => [this.userUID, this.requestedData];
+}

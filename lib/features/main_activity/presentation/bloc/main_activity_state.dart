@@ -36,3 +36,14 @@ class Error extends MainActivityState {
   @override
   List<Object> get props => [message];
 }
+
+class OpenSubscribePageState extends MainActivityState {
+  final UserDataModel userDataModel;
+  final ProviderRequestDataModel requestedData;
+
+  OpenSubscribePageState(
+      {@required this.userDataModel, @required this.requestedData});
+
+  @override
+  List<Object> get props => [this.userDataModel, this.requestedData];
+}

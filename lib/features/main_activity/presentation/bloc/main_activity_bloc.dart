@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/models/provider_request_model.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/models/user_data_model.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/save_user_model_data.dart';
@@ -44,6 +45,14 @@ class MainActivityBloc extends Bloc<MainActivityEvent, MainActivityState> {
           (error) => Error(message: 'Cant save user model data'),
           (okey) =>
               DataManagementPageState(userDataModel: event.userDataModel));
+    } else if (event is OpenSubscribePage) {
+      final userModelDataOrException =
+          await getUserModelDataUseCase(userUID: event.userUID);
+      yield userModelDataOrException.fold(
+          (error) => Error(message: 'Cant fetch user model data'),
+          (userModelData) => OpenSubscribePageState(
+              userDataModel: userModelData,
+              requestedData: event.requestedData));
     }
   }
 }
