@@ -66,6 +66,15 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               },
             ),
             ListTile(
+              title: Text('Show Actual QR Code'),
+              leading: Icon(Icons.qr_code),
+              onTap: () async {
+                Navigator.of(context).pop();
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenShowQRCode());
+              },
+            ),
+            ListTile(
               title: Text('LogOut'),
               leading: Icon(Icons.exit_to_app),
               onTap: () {

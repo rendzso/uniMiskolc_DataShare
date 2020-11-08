@@ -70,6 +70,7 @@ class _QRCodeGeneratorState extends State<QRCodeGenerator> {
                     ? () async {
                         final success = await ImageGallerySaver.saveImage(bytes,
                             quality: 80, name: user.uid);
+                        print(success);
                         SnackBar snackBar;
                         if (success != null) {
                           snackBar = new SnackBar(

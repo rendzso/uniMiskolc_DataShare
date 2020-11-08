@@ -31,3 +31,8 @@ class QRCodeGeneratorState extends ProviderActivityState {
   @override
   List<Object> get props => [this.requiredDataList];
 }
+
+class ShowQRCodePageState extends ProviderActivityState {
+  @override
+  List<Object> get props => null;
+}

@@ -42,3 +42,8 @@ class OpenQRCodeGenerator extends ProviderActivityEvent {
   @override
   List<Object> get props => [this.userUID];
 }
+
+class OpenShowQRCode extends ProviderActivityEvent {
+  @override
+  List<Object> get props => null;
+}

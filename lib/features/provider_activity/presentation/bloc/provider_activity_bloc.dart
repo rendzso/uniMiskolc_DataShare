@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/get_required_data_list.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/domain/usecases/save_required_data_list.dart';
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/show_actual_qr_code.dart';
 
 part 'provider_activity_event.dart';
 part 'provider_activity_state.dart';
@@ -46,6 +47,8 @@ class ProviderActivityBloc
           await getRequiredDataListUseCase(userUID: event.userUID);
       yield requiredDataListOrException.fold((error) => null,
           (list) => QRCodeGeneratorState(requiredDataList: list));
+    } else if (event is OpenShowQRCode) {
+      yield ShowQRCodePageState();
     }
   }
 }
