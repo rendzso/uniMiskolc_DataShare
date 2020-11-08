@@ -44,8 +44,6 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
     final dynamic notification = message['notification'];
     print(notification);
   }
-
-  // Or do other work.
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -54,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void setToken(token) {
     fcmToken = token;
-    print('TOKEEEEEEEEEN:::' + fcmToken);
   }
 
   @override
@@ -90,7 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
               BlocProvider.of<SessionHandlerBloc>(context).add(CheckAccountType(
                   user: BlocProvider.of<SessionHandlerBloc>(context)
                       .state
-                      .props[0]));
+                      .props[0],
+                  fcmToken: fcmToken));
               return Center(
                 child: CircularProgressIndicator(),
               );

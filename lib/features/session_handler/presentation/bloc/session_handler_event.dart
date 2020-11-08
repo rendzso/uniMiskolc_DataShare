@@ -58,11 +58,12 @@ class ResendVerificationEmail extends SessionHandlerEvent {
 
 class CheckAccountType extends SessionHandlerEvent {
   final FirebaseUser user;
+  final String fcmToken;
 
-  CheckAccountType({@required this.user});
+  CheckAccountType({@required this.user, @required this.fcmToken});
 
   @override
-  List<Object> get props => [this.user];
+  List<Object> get props => [this.user, this.fcmToken];
 }
 
 class UpdateAccountType extends SessionHandlerEvent {

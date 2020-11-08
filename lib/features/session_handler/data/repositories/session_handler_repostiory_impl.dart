@@ -123,11 +123,12 @@ class SessionHandlerRepositoryImplementation
   }
 
   @override
-  Future<Either<Exception, String>> getAccountType({String userUID}) async {
+  Future<Either<Exception, String>> getAccountType(
+      {String userUID, String fcmToken}) async {
     if (await networkInfo.isConnected) {
       try {
-        final answer =
-            await remoteDataSource.checkAccountType(userUID: userUID);
+        final answer = await remoteDataSource.checkAccountType(
+            userUID: userUID, fcmToken: fcmToken);
         return Right(answer);
       } on CannotCheckAccountTypeException {
         return Left(CannotCheckAccountTypeException());

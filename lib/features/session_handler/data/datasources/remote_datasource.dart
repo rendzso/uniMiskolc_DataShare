@@ -24,7 +24,7 @@ abstract class RemoteDataSource {
 
   Future<bool> updateUserData({String displayname, String phoneNumber});
 
-  Future<String> checkAccountType({String userUID});
+  Future<String> checkAccountType({String userUID, @required String fcmToken});
 
   Future<bool> updateAccountType({String userUID, String type});
 }

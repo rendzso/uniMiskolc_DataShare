@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -124,8 +123,9 @@ class RemoteDataSourceImplementation implements RemoteDataSource {
   }
 
   @override
-  Future<String> checkAccountType({String userUID}) async {
+  Future<String> checkAccountType({String userUID, String fcmToken}) async {
     try {
+      await secureStore.saveToken(fcmToken);
       final answer = await databaseReference
           .collection('accountType')
           .document(userUID)

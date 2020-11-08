@@ -7,7 +7,9 @@ class CheckAccountTypeUseCase {
 
   CheckAccountTypeUseCase({@required this.repository});
 
-  Future<Either<Exception, String>> call({@required String userUID}) async {
-    return await repository.getAccountType(userUID: userUID);
+  Future<Either<Exception, String>> call(
+      {@required String userUID, @required String fcmToken}) async {
+    return await repository.getAccountType(
+        userUID: userUID, fcmToken: fcmToken);
   }
 }

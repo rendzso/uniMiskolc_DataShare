@@ -15,7 +15,8 @@ abstract class SessionHandlerRepository {
   Future<Either<Exception, bool>> resendVerificationEmail();
   Future<Either<Exception, bool>> updateUserData(
       {@required String displayname, @required String phoneNumber});
-  Future<Either<Exception, String>> getAccountType({@required String userUID});
+  Future<Either<Exception, String>> getAccountType(
+      {@required String userUID, @required String fcmToken});
   Future<Either<Exception, bool>> updateAccountType(
       {@required String userUID, @required String type});
 }

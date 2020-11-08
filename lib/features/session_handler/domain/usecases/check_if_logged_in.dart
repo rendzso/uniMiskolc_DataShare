@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/domain/repositories/session_handler_repository.dart';
 
-class CheckIfLoggedInUseCase{
+class CheckIfLoggedInUseCase {
   final SessionHandlerRepository repository;
 
   CheckIfLoggedInUseCase({@required this.repository});
