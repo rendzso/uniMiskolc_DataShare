@@ -48,4 +48,16 @@ class MainActivityRepositoryImplementation implements MainActivityRepository {
       return Left(InternetException());
     }
   }
+
+  @override
+  Future<Either<Exception, bool>> sendSubscribeData(
+      {@required providerFCMToken}) async {
+    if (await networkInfo.isConnected) {
+      await mainActivityRemoteDataSource.sendSubscribeData(
+          providerFCMToken: providerFCMToken);
+      return Right(true);
+    } else {
+      return Left(InternetException());
+    }
+  }
 }

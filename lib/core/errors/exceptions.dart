@@ -23,3 +23,5 @@ class SaveRequiredDataListException implements Exception {}
 class GetRequiredDataListException implements Exception {}
 
 class GetFCMTokenException implements Exception {}
+
+class SubscribeException implements Exception {}

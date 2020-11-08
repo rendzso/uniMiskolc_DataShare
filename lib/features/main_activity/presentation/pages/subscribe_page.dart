@@ -64,7 +64,10 @@ class _SubscribePageState extends State<SubscribePage> {
             RaisedButton(
                 child: Text('Sure, send it!'),
                 onPressed: () {
-                  print('data sendt');
+                  BlocProvider.of<MainActivityBloc>(context).add(
+                      SaveSubscribeData(
+                          providerFCMToken:
+                              providerDataModel.providerFCMToken));
                 }),
           ],
         ),

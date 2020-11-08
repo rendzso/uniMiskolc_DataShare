@@ -13,6 +13,7 @@ import 'package:uni_miskolc_datashare/features/main_activity/data/repositories/m
 import 'package:uni_miskolc_datashare/features/main_activity/domain/repositories/main_activity_repository.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/save_user_model_data.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/send_subscribe_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/data/datasources/provider_activity_remote_data_source.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/data/datasources/provider_activity_remote_data_source_impl.dart';
@@ -112,14 +113,18 @@ void registerSessionHandler() {
 void registerMainActivity() {
   injector.registerFactory(
     () => MainActivityBloc(
-        getUserModelDataUseCase: injector(),
-        saveUserModelDataUseCase: injector()),
+      getUserModelDataUseCase: injector(),
+      saveUserModelDataUseCase: injector(),
+      sendSubscribeDataUseCase: injector(),
+    ),
   );
 
   injector.registerLazySingleton(
       () => GetUserModelDataUseCase(repository: injector()));
   injector.registerLazySingleton(
       () => SaveUserModelDataUseCase(repository: injector()));
+  injector.registerLazySingleton(
+      () => SendSubscribeDataUseCase(repository: injector()));
 
   injector.registerLazySingleton<MainActivityRepository>(() =>
       MainActivityRepositoryImplementation(

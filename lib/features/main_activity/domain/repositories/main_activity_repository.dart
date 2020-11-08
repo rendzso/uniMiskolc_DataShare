@@ -7,4 +7,6 @@ abstract class MainActivityRepository {
       {@required String userUID});
   Future<Either<Exception, bool>> saveUserDataModel(
       {@required String userUID, @required UserDataModel userDataModel});
+  Future<Either<Exception, bool>> sendSubscribeData(
+      {@required providerFCMToken});
 }
