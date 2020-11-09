@@ -24,11 +24,12 @@ class _ProviderMainState extends State<ProviderMain> {
   final fireBaseMessaging = FirebaseMessaging();
   FirebaseUser user;
 
-  void configureFireBaseMessagingManager() {
+  void configureFireBaseMessagingManager(BuildContext context) {
     fireBaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('inMessage poppped');
         await popANotification();
+        BlocProvider.of<ProviderActivityBloc>(context).add(OpenQueueList());
       },
     );
   }
@@ -50,7 +51,6 @@ class _ProviderMainState extends State<ProviderMain> {
   @override
   void initState() {
     user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
-    configureFireBaseMessagingManager();
     super.initState();
   }
 
@@ -60,6 +60,7 @@ class _ProviderMainState extends State<ProviderMain> {
       create: (_) => injector<ProviderActivityBloc>(),
       child: BlocBuilder<ProviderActivityBloc, ProviderActivityState>(
         builder: (context, state) {
+          configureFireBaseMessagingManager(context);
           if (state is ProviderWelcomePageState) {
             return ProviderWelcomePage();
           } else if (state is ProviderOptionsPageState) {
