@@ -57,6 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     fireBaseMessaging.getToken().then((value) => setToken(value));
+    fireBaseMessaging.configure(
+      onBackgroundMessage: myBackgroundMessageHandler,
+    );
     super.initState();
   }
 

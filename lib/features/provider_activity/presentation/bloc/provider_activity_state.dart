@@ -38,3 +38,8 @@ class ShowQRCodePageState extends ProviderActivityState {
   @override
   List<Object> get props => null;
 }
+
+class QueueListPageState extends ProviderActivityState {
+  @override
+  List<Object> get props => null;
+}

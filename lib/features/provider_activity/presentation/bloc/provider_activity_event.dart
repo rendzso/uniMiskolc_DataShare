@@ -47,3 +47,8 @@ class OpenShowQRCode extends ProviderActivityEvent {
   @override
   List<Object> get props => null;
 }
+
+class OpenQueueList extends ProviderActivityEvent {
+  @override
+  List<Object> get props => null;
+}

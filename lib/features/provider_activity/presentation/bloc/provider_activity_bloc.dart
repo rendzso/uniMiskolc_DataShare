@@ -60,6 +60,8 @@ class ProviderActivityBloc
       }
     } else if (event is OpenShowQRCode) {
       yield ShowQRCodePageState();
+    } else if (event is OpenQueueList) {
+      yield QueueListPageState();
     }
   }
 }
