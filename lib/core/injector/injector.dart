@@ -4,9 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
+import 'package:uni_miskolc_datashare/core/injector/navigator_service.dart';
 import 'package:uni_miskolc_datashare/core/network/network_info.dart';
+import 'package:uni_miskolc_datashare/core/provider_queue/provider_queue.dart';
+import 'package:uni_miskolc_datashare/core/provider_queue/provider_queue_impl.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store.dart';
 import 'package:uni_miskolc_datashare/core/secure_store/secure_store_impl.dart';
+import 'package:uni_miskolc_datashare/core/user_serial_number/user_serial_number.dart';
+import 'package:uni_miskolc_datashare/core/user_serial_number/user_serial_number_impl.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/main_activity_remote_datasource.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/main_activity_remote_datasource_impl.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/repositories/main_activity_repository_impl.dart';
@@ -67,6 +72,11 @@ void registerCore() {
 }
 
 void registerSessionHandler() {
+  injector.registerLazySingleton<ProviderQueueStore>(
+      () => ProviderQueueStoreImplementation());
+  injector.registerLazySingleton<UserSerialNumber>(
+      () => UserSerialNumberImplementation());
+  injector.registerLazySingleton(() => NavigationService());
   injector.registerFactory(
     () => SessionHandlerBloc(
       loginUseCase: injector(),

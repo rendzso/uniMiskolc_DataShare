@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:uni_miskolc_datashare/core/provider_queue/provider_queue.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/models/client_subscribe_model.dart';
-
+import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_queue_list.dart';
 import 'features/app.dart';
 
 import 'core/injector/injector.dart' as injector;
@@ -43,19 +44,7 @@ Future<void> main() async {
       onSelectNotification: (String payload) async {
     if (payload != null) {
       Map<String, dynamic> temp = json.decode(payload);
-      List<Map<String, String>> tempList = [];
-      for (var index = 0; index < temp['requiredDataList'].length; index++) {
-        String str = temp['requiredDataList'][index].toString();
-        final cutKeyIndex = str.indexOf(':');
-        final key = str.substring(1, cutKeyIndex);
-        final value = str.substring(cutKeyIndex + 2, str.length - 1);
-        tempList.add({key: value});
-      }
-      ClientSubscribeModel clientSubscribeModel = ClientSubscribeModel(
-        userName: temp['userName'].toString(),
-        userFCMToken: temp['userFCMToken'].toString(),
-        requiredDataList: tempList,
-      );
+      print(temp);
     }
   });
   runApp(App());

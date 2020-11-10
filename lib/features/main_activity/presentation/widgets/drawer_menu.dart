@@ -41,6 +41,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
               },
             ),
             ListTile(
+              title: Text('Serial number'),
+              leading: Icon(Icons.exit_to_app),
+              onTap: () {
+                Navigator.of(context).pop();
+                BlocProvider.of<MainActivityBloc>(context)
+                    .add(OpenClientSerialNumber());
+              },
+            ),
+            ListTile(
               title: Text('User Options'),
               leading: Icon(Icons.settings),
               onTap: () {

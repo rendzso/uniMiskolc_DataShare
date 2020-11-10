@@ -51,3 +51,8 @@ class OpenSubscribePageState extends MainActivityState {
   List<Object> get props =>
       [this.userDataModel, this.requestedData, this.fcmToken];
 }
+
+class OpenClientSerialNumberState extends MainActivityState {
+  @override
+  List<Object> get props => null;
+}

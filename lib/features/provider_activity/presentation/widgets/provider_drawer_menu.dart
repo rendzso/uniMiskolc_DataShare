@@ -39,6 +39,15 @@ class _ProviderDrawerMenuState extends State<ProviderDrawerMenu> {
               },
             ),
             ListTile(
+              title: Text('Actual queue list'),
+              leading: Icon(Icons.hourglass_full),
+              onTap: () {
+                Navigator.of(context).pop();
+                BlocProvider.of<ProviderActivityBloc>(context)
+                    .add(OpenQueueList());
+              },
+            ),
+            ListTile(
               title: Text('User Options'),
               leading: Icon(Icons.settings),
               onTap: () {

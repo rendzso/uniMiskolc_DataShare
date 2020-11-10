@@ -70,6 +70,8 @@ class MainActivityBloc extends Bloc<MainActivityEvent, MainActivityState> {
           providerFCMToken: event.providerFCMToken,
           clientSubscribeModel: event.clientSubscribeModel);
       yield WelcomePageState();
+    } else if (event is OpenClientSerialNumber) {
+      yield OpenClientSerialNumberState();
     }
   }
 }

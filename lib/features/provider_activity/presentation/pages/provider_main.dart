@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:uni_miskolc_datashare/core/injector/injector.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/bloc/provider_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/provider_options.dart';
@@ -13,41 +11,13 @@ import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pa
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/pages/show_actual_qr_code.dart';
 import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
-import '../../../../main.dart';
-
 class ProviderMain extends StatefulWidget {
   @override
   _ProviderMainState createState() => _ProviderMainState();
 }
 
 class _ProviderMainState extends State<ProviderMain> {
-  final fireBaseMessaging = FirebaseMessaging();
   FirebaseUser user;
-
-  void configureFireBaseMessagingManager(BuildContext context) {
-    fireBaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        String title = message['notification']['title'].toString();
-        String body = message['notification']['body'].toString();
-        String data = message['data']['clientData'].toString();
-        await popANotification(title, body, data);
-      },
-    );
-  }
-
-  Future<void> popANotification(
-      String title, String body, String payload) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-            'your channel id', 'your channel name', 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            showWhen: false);
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin
-        .show(0, title, body, platformChannelSpecifics, payload: payload);
-  }
 
   @override
   void initState() {
@@ -61,7 +31,6 @@ class _ProviderMainState extends State<ProviderMain> {
       create: (_) => injector<ProviderActivityBloc>(),
       child: BlocBuilder<ProviderActivityBloc, ProviderActivityState>(
         builder: (context, state) {
-          configureFireBaseMessagingManager(context);
           if (state is ProviderWelcomePageState) {
             return ProviderWelcomePage();
           } else if (state is ProviderOptionsPageState) {

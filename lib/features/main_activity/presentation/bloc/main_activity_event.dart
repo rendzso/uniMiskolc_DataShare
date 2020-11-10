@@ -61,3 +61,8 @@ class SaveSubscribeData extends MainActivityEvent {
   @override
   List<Object> get props => [this.providerFCMToken, this.clientSubscribeModel];
 }
+
+class OpenClientSerialNumber extends MainActivityEvent {
+  @override
+  List<Object> get props => null;
+}

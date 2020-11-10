@@ -27,6 +27,7 @@ dependencies:
   cloud_firestore: 0.13.5
   google_sign_in: ^4.4.2
   get_it: ^4.0.1
+  get: ^3.16.0
   dartz: ^0.9.0
   data_connection_checker: ^0.3.4
   flutter_bloc: ^4.0.0
