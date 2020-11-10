@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uni_miskolc_datashare/core/data/available_data.dart';
 import 'package:uni_miskolc_datashare/core/widgets/custom_input_field.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/data/models/client_subscribe_model.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/models/provider_request_model.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/models/user_data_model.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/domain/entities/client_subscribe.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/presentation/bloc/main_activity_bloc.dart';
 import 'package:uni_miskolc_datashare/features/provider_activity/presentation/widgets/provider_drawer_menu.dart';
+import 'package:uni_miskolc_datashare/features/session_handler/presentation/bloc/session_handler_bloc.dart';
 
 class SubscribePage extends StatefulWidget {
   @override
@@ -15,12 +19,16 @@ class SubscribePage extends StatefulWidget {
 class _SubscribePageState extends State<SubscribePage> {
   final availableDataList = AvailableData().availableDataValue;
   final availableDataNameList = AvailableData().availableDataName;
+  FirebaseUser user;
+  String fcmToken;
   UserDataModel userDataModel;
   ProviderRequestDataModel providerDataModel;
 
   @override
   void initState() {
     userDataModel = BlocProvider.of<MainActivityBloc>(context).state.props[0];
+    user = BlocProvider.of<SessionHandlerBloc>(context).state.props[0];
+    fcmToken = BlocProvider.of<MainActivityBloc>(context).state.props[2];
     providerDataModel =
         BlocProvider.of<MainActivityBloc>(context).state.props[1];
 
@@ -66,12 +74,30 @@ class _SubscribePageState extends State<SubscribePage> {
                 onPressed: () {
                   BlocProvider.of<MainActivityBloc>(context).add(
                       SaveSubscribeData(
-                          providerFCMToken:
-                              providerDataModel.providerFCMToken));
+                          providerFCMToken: providerDataModel.providerFCMToken,
+                          clientSubscribeModel: generateSubscribeData()));
                 }),
           ],
         ),
       ),
     );
+  }
+
+  ClientSubscribeModel generateSubscribeData() {
+    List<Map<String, String>> requestedListMap = [];
+    for (var index = 0;
+        index < providerDataModel.requiredDataList.length;
+        index++) {
+      requestedListMap.add({
+        availableDataNameList[availableDataList
+                .indexOf(providerDataModel.requiredDataList[index])]:
+            userDataModel.props[availableDataList
+                .indexOf(providerDataModel.requiredDataList[index])]
+      });
+    }
+    return new ClientSubscribeModel(
+        userName: user.displayName,
+        userFCMToken: fcmToken,
+        requiredDataList: requestedListMap);
   }
 }

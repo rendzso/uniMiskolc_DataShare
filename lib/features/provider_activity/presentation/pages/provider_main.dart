@@ -27,14 +27,16 @@ class _ProviderMainState extends State<ProviderMain> {
   void configureFireBaseMessagingManager(BuildContext context) {
     fireBaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('inMessage poppped');
-        await popANotification();
-        BlocProvider.of<ProviderActivityBloc>(context).add(OpenQueueList());
+        String title = message['notification']['title'].toString();
+        String body = message['notification']['body'].toString();
+        String data = message['data']['clientData'].toString();
+        await popANotification(title, body, data);
       },
     );
   }
 
-  Future<void> popANotification() async {
+  Future<void> popANotification(
+      String title, String body, String payload) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
             'your channel id', 'your channel name', 'your channel description',
@@ -43,9 +45,8 @@ class _ProviderMainState extends State<ProviderMain> {
             showWhen: false);
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpecifics, payload: payload);
   }
 
   @override

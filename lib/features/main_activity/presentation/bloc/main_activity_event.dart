@@ -53,9 +53,11 @@ class OpenSubscribePage extends MainActivityEvent {
 
 class SaveSubscribeData extends MainActivityEvent {
   final String providerFCMToken;
+  final ClientSubscribeModel clientSubscribeModel;
 
-  SaveSubscribeData({@required this.providerFCMToken});
+  SaveSubscribeData(
+      {@required this.providerFCMToken, @required this.clientSubscribeModel});
 
   @override
-  List<Object> get props => [this.providerFCMToken];
+  List<Object> get props => [this.providerFCMToken, this.clientSubscribeModel];
 }

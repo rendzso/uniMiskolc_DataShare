@@ -8,5 +8,6 @@ abstract class MainActivityRepository {
   Future<Either<Exception, bool>> saveUserDataModel(
       {@required String userUID, @required UserDataModel userDataModel});
   Future<Either<Exception, bool>> sendSubscribeData(
-      {@required providerFCMToken});
+      {@required providerFCMToken, @required clientSubscribeModel});
+  Future<Either<Exception, String>> getFCMToken({@required String userUID});
 }

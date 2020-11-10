@@ -11,6 +11,7 @@ import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/ma
 import 'package:uni_miskolc_datashare/features/main_activity/data/datasources/main_activity_remote_datasource_impl.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/data/repositories/main_activity_repository_impl.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/repositories/main_activity_repository.dart';
+import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_fcm_token_client.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/get_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/save_user_model_data.dart';
 import 'package:uni_miskolc_datashare/features/main_activity/domain/usecases/send_subscribe_data.dart';
@@ -116,6 +117,7 @@ void registerMainActivity() {
       getUserModelDataUseCase: injector(),
       saveUserModelDataUseCase: injector(),
       sendSubscribeDataUseCase: injector(),
+      getFCMTokenUseCaseClient: injector(),
     ),
   );
 
@@ -125,6 +127,8 @@ void registerMainActivity() {
       () => SaveUserModelDataUseCase(repository: injector()));
   injector.registerLazySingleton(
       () => SendSubscribeDataUseCase(repository: injector()));
+  injector.registerLazySingleton(
+      () => GetFCMTokenUseCaseClient(repository: injector()));
 
   injector.registerLazySingleton<MainActivityRepository>(() =>
       MainActivityRepositoryImplementation(

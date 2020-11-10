@@ -40,10 +40,14 @@ class Error extends MainActivityState {
 class OpenSubscribePageState extends MainActivityState {
   final UserDataModel userDataModel;
   final ProviderRequestDataModel requestedData;
+  final String fcmToken;
 
   OpenSubscribePageState(
-      {@required this.userDataModel, @required this.requestedData});
+      {@required this.userDataModel,
+      @required this.requestedData,
+      @required this.fcmToken});
 
   @override
-  List<Object> get props => [this.userDataModel, this.requestedData];
+  List<Object> get props =>
+      [this.userDataModel, this.requestedData, this.fcmToken];
 }
