@@ -37,59 +37,61 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[400],
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: 270,
-              child: Image.asset('assets/images/logo.png'),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                height: 270,
+                child: Image.asset('assets/images/logo.png'),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'LogIn Page',
-                  style: TextStyle(fontSize: 30.0),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'LogIn Page',
+                    style: TextStyle(fontSize: 30.0),
+                  ),
+                ],
+              ),
             ),
-          ),
-          CustomInputField(
-            textHint: 'Email address',
-            myController: myEmailChangeController,
-            isPassword: false,
-            rowText: 'Email:',
-            onlyText: false,
-          ),
-          CustomInputField(
-            textHint: 'Password',
-            myController: myPasswordChangeController,
-            isPassword: true,
-            rowText: 'Password:',
-            onlyText: false,
-          ),
-          RaisedButton(
-              child: Text('Log In'),
-              onPressed: () {
-                BlocProvider.of<SessionHandlerBloc>(context).add(LogIn(
-                  email: email,
-                  password: password,
-                ));
-              }),
-          Padding(
-            padding: const EdgeInsets.only(top: 70),
-            child: RaisedButton(
-                child: Text('Sign up'),
+            CustomInputField(
+              textHint: 'Email address',
+              myController: myEmailChangeController,
+              isPassword: false,
+              rowText: 'Email:',
+              onlyText: false,
+            ),
+            CustomInputField(
+              textHint: 'Password',
+              myController: myPasswordChangeController,
+              isPassword: true,
+              rowText: 'Password:',
+              onlyText: false,
+            ),
+            RaisedButton(
+                child: Text('Log In'),
                 onPressed: () {
-                  BlocProvider.of<SessionHandlerBloc>(context)
-                      .add(OpenSignUpPage());
+                  BlocProvider.of<SessionHandlerBloc>(context).add(LogIn(
+                    email: email,
+                    password: password,
+                  ));
                 }),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 70),
+              child: RaisedButton(
+                  child: Text('Sign up'),
+                  onPressed: () {
+                    BlocProvider.of<SessionHandlerBloc>(context)
+                        .add(OpenSignUpPage());
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

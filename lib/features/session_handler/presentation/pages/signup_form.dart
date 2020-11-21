@@ -36,60 +36,62 @@ class _SignUpFormState extends State<SignUpForm> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        color: Colors.grey[400],
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                height: 270,
-                child: Image.asset('assets/images/logo.png'),
+      child: SingleChildScrollView(
+        child: Container(
+          color: Colors.grey[400],
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  height: 270,
+                  child: Image.asset('assets/images/logo.png'),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'Sign up Page',
-                    style: TextStyle(fontSize: 30.0),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Sign up Page',
+                      style: TextStyle(fontSize: 30.0),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            CustomInputField(
-              textHint: 'Email address',
-              myController: myEmailChangeController,
-              isPassword: false,
-              rowText: 'Email:',
-              onlyText: false,
-            ),
-            CustomInputField(
-              textHint: 'Password',
-              myController: myPasswordChangeController,
-              isPassword: true,
-              rowText: 'Password:',
-              onlyText: false,
-            ),
-            RaisedButton(
-              child: Text('Sign Up!'),
-              onPressed: () {
-                BlocProvider.of<SessionHandlerBloc>(context)
-                    .add(SignUp(email: email, password: password));
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 70),
-              child: RaisedButton(
-                  child: Text('Back to login'),
-                  onPressed: () {
-                    BlocProvider.of<SessionHandlerBloc>(context)
-                        .add(OpenLogInPage());
-                  }),
-            )
-          ],
+              CustomInputField(
+                textHint: 'Email address',
+                myController: myEmailChangeController,
+                isPassword: false,
+                rowText: 'Email:',
+                onlyText: false,
+              ),
+              CustomInputField(
+                textHint: 'Password',
+                myController: myPasswordChangeController,
+                isPassword: true,
+                rowText: 'Password:',
+                onlyText: false,
+              ),
+              RaisedButton(
+                child: Text('Sign Up!'),
+                onPressed: () {
+                  BlocProvider.of<SessionHandlerBloc>(context)
+                      .add(SignUp(email: email, password: password));
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 70),
+                child: RaisedButton(
+                    child: Text('Back to login'),
+                    onPressed: () {
+                      BlocProvider.of<SessionHandlerBloc>(context)
+                          .add(OpenLogInPage());
+                    }),
+              )
+            ],
+          ),
         ),
       ),
     );

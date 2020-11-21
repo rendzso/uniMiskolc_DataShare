@@ -65,49 +65,51 @@ class _DataManagementState extends State<DataManagement> {
     return Scaffold(
       backgroundColor: Colors.grey[400],
       drawer: DrawerMenu(),
-      body: Column(
-        children: <Widget>[
-          Text('Data Management Page'),
-          CustomInputField(
-            myController: myFirstNameChangeController,
-            textHint: userData.fistName,
-            isPassword: false,
-            rowText: 'First name:',
-            onlyText: false,
-          ),
-          CustomInputField(
-            myController: myLastNameChangeController,
-            textHint: userData.lastName,
-            isPassword: false,
-            rowText: 'Last name:',
-            onlyText: false,
-          ),
-          CustomInputField(
-            myController: myDateOfBirthChangeController,
-            textHint: userData.dateOfBirth,
-            isPassword: false,
-            rowText: 'Date of birth:',
-            onlyText: false,
-          ),
-          CustomInputField(
-            myController: myPersonalIDChangeController,
-            textHint: userData.personalID,
-            isPassword: false,
-            rowText: 'Personal ID',
-            onlyText: false,
-          ),
-          RaisedButton(
-            child: Text('Save data'),
-            onPressed: changed
-                ? () {
-                    BlocProvider.of<MainActivityBloc>(context).add(
-                        SaveUserModelData(
-                            userUID: user.uid,
-                            userDataModel: getNewUserData()));
-                  }
-                : null,
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text('Data Management Page'),
+            CustomInputField(
+              myController: myFirstNameChangeController,
+              textHint: userData.fistName,
+              isPassword: false,
+              rowText: 'First name:',
+              onlyText: false,
+            ),
+            CustomInputField(
+              myController: myLastNameChangeController,
+              textHint: userData.lastName,
+              isPassword: false,
+              rowText: 'Last name:',
+              onlyText: false,
+            ),
+            CustomInputField(
+              myController: myDateOfBirthChangeController,
+              textHint: userData.dateOfBirth,
+              isPassword: false,
+              rowText: 'Date of birth:',
+              onlyText: false,
+            ),
+            CustomInputField(
+              myController: myPersonalIDChangeController,
+              textHint: userData.personalID,
+              isPassword: false,
+              rowText: 'Personal ID',
+              onlyText: false,
+            ),
+            RaisedButton(
+              child: Text('Save data'),
+              onPressed: changed
+                  ? () {
+                      BlocProvider.of<MainActivityBloc>(context).add(
+                          SaveUserModelData(
+                              userUID: user.uid,
+                              userDataModel: getNewUserData()));
+                    }
+                  : null,
+            ),
+          ],
+        ),
       ),
     );
   }
