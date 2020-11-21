@@ -48,6 +48,7 @@ class _DataManagementState extends State<DataManagement> {
       newPersonalID = myPersonalIDChangeController.text;
       checkIfDataChanged();
     });
+    newDateOfBirth = userData.dateOfBirth;
     super.initState();
   }
 
@@ -83,12 +84,32 @@ class _DataManagementState extends State<DataManagement> {
               rowText: 'Last name:',
               onlyText: false,
             ),
-            CustomInputField(
-              myController: myDateOfBirthChangeController,
-              textHint: userData.dateOfBirth,
-              isPassword: false,
-              rowText: 'Date of birth:',
-              onlyText: false,
+            GestureDetector(
+              child: CustomInputField(
+                myController: myDateOfBirthChangeController,
+                textHint: userData.dateOfBirth,
+                initialString: newDateOfBirth,
+                isPassword: false,
+                rowText: 'Date of birth:',
+                onlyText: true,
+              ),
+              onTap: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1850),
+                  lastDate: DateTime.now(),
+                ).then((value) {
+                  setState(() {
+                    newDateOfBirth = value.year.toString() +
+                        '/' +
+                        value.month.toString() +
+                        '/' +
+                        value.day.toString();
+                    checkIfDataChanged();
+                  });
+                });
+              },
             ),
             CustomInputField(
               myController: myPersonalIDChangeController,
