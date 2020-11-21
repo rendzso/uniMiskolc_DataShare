@@ -25,8 +25,16 @@ class MainActivityRemoteDataSourceImplementation
           .collection('userData')
           .document(userUID)
           .get();
-      final UserDataModel userDataModel = UserDataModel.fromJson(answer.data);
-      return userDataModel;
+      if (answer.data == null) {
+        return new UserDataModel(
+            fistName: null,
+            lastName: null,
+            dateOfBirth: null,
+            personalID: null);
+      } else {
+        final UserDataModel userDataModel = UserDataModel.fromJson(answer.data);
+        return userDataModel;
+      }
     } on PlatformException {
       throw InternetException();
     }
