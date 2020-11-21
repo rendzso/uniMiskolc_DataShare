@@ -133,6 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin
         .show(0, title, body, platformChannelSpecifics, payload: payload);
+    setState(() {});
   }
 
   @override
