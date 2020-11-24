@@ -101,11 +101,12 @@ class SessionHandlerBloc
       yield loggedInOrEception.fold(
           (no) => LogInPage(), (user) => LoggedIn(user: user));
     } else if (event is CheckAccountType) {
-      final typeOrException =
-          await checkAccountTypeUseCase(userUID: event.user.uid, fcmToken: event.fcmToken);
+      final typeOrException = await checkAccountTypeUseCase(
+          userUID: event.user.uid, fcmToken: event.fcmToken);
       final type = typeOrException.fold((error) => null, (type) => type);
       yield LoggedInWithType(user: event.user, type: type);
     } else if (event is UpdateAccountType) {
+      yield Loading();
       final updatedOrException = await updateAccountTypeUseCase(
           userUID: event.user.uid, type: event.type);
       final updated =
